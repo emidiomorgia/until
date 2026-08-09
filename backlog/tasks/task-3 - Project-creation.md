@@ -1,10 +1,10 @@
 ---
 id: TASK-3
 title: Project creation
-status: In Progress
+status: In Review
 assignee: []
 created_date: '2026-08-09 21:50'
-updated_date: '2026-08-09 22:20'
+updated_date: '2026-08-09 22:21'
 labels:
   - Sprint1
 milestone: m-0
