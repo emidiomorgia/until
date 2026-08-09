@@ -20,7 +20,7 @@ Current task: TASK-2 – Create CICD Pipeline ad GitHub Action (Ready)
 
 ## Known constraints
 
-- The application is in the foundation phase; the TypeScript/React web client, Java backend, and weather functionality are not implemented yet.
+- The application is in the foundation phase; the TypeScript/React web client, Java backend, and deadline functionality are not implemented yet.
 - The repository is intended to be a monorepo. Microservices are future evolution and are not part of the current baseline.
 - Work must be performed through a prepared Backlog.md task manually approved by the Human. A separate SPEC is optional.
 - Backlog.md provides task and milestone planning; this memory does not track sprints or other planning concepts outside that model.

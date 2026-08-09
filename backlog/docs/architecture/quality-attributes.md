@@ -16,7 +16,7 @@ The application should preserve a viable build and runtime experience across sup
 
 ## Reliability
 
-External weather-service failures, invalid locations, unavailable network access, and malformed data must have defined user-visible behavior before implementation.
+External-service failures, invalid deadline data, unavailable network access, and malformed data must have defined user-visible behavior before implementation.
 
 ## Maintainability
 
@@ -26,4 +26,4 @@ The current automated quality gate and optional static-analysis layer are define
 
 ## Security and privacy
 
-Credentials and secrets must not be committed. Location data and provider requests must be handled according to the prepared task and any optional SPEC; no privacy behavior is implied by this baseline document.
+Credentials and secrets must not be committed. User and deadline data, along with external-service requests, must be handled according to the prepared task and any optional SPEC; no privacy behavior is implied by this baseline document.

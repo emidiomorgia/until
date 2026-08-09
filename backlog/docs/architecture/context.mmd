@@ -2,8 +2,6 @@ flowchart LR
     User[Web user]
     Until[until\nReact SPA/PWA]
     Backend[Java backend API\nQuarkus or Spring Boot]
-    Provider[Weather provider\nnot selected]
 
     User -->|Uses browser or installed PWA| Until
     Until -->|HTTPS API requests| Backend
-    Backend -.->|Future weather requests| Provider
