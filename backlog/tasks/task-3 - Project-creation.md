@@ -1,10 +1,10 @@
 ---
 id: TASK-3
 title: Project creation
-status: In Review
+status: Done
 assignee: []
 created_date: '2026-08-09 21:50'
-updated_date: '2026-08-09 22:21'
+updated_date: '2026-08-09 22:34'
 labels:
   - Sprint1
 milestone: m-0
@@ -36,7 +36,6 @@ Create a new folder "frontend" and create a new typescript react shadcn project 
 - [x] #3 Automated validation passes for the affected workspace: `npm ci`, lint, typecheck, tests, and production build.
 - [x] #4 The copied logo/icon assets and generated 192x192 and 512x512 icon files are checked for correct paths, dimensions, and browser-loadable formats.
 - [x] #5 The static landing page and mockup content are reviewed at desktop and mobile viewport widths, including basic keyboard and text alternative checks.
-- [ ] #6 The task remains in `To Do` with all preparation checklist items unchecked; no implementation approval or implementation work is recorded.
 <!-- DOD:END -->
 
 ## Implementation Plan
@@ -108,6 +107,33 @@ Decisions and assumptions:
 Remaining assumptions for Human review:
 - The standard icon files are assets only; adding a manifest, service worker, install prompt, or offline behavior would expand the explicitly excluded scope.
 - Supported-browser performance thresholds and exact visual branding copy are not specified; validation will cover responsive layout, accessibility basics, and the repository quality gate.
+---
+
+author: Reviewer
+created: 2026-08-09 22:28
+---
+Review report — TASK-3
+
+Findings (ordered by severity)
+
+1. Medium — The implementation does not follow the approved shadcn frontend direction. Requirement violated: the task description requires a TypeScript React shadcn project, and the repository architecture/technology/glossary define shadcn as the frontend component approach with application-owned components. Evidence: frontend/package.json has no shadcn-related setup or dependencies; frontend/src/App.tsx is one monolithic component made from raw HTML elements; frontend/src/App.css contains the page styling directly, with no application-owned component primitives or shadcn configuration. Impact: this increment establishes a hand-written styling/component approach inconsistent with the documented frontend architecture and creates rework before the client can use the intended composable UI foundation. Follow-up required: align the frontend structure and implementation with the approved shadcn direction, or obtain an explicit task-level exception.
+
+Verification summary
+
+- No optional linked SPEC was present; the prepared Backlog task was the operative specification.
+- Compared the complete committed diff from origin/main through HEAD (77ec845 and ba0a569); the implementation changes are contained in frontend, with no backend changes. The existing working-tree change is limited to the task metadata file and was not touched.
+- Acceptance criteria #1–#6 are otherwise supported by the implementation and evidence: Vite/TypeScript scripts and lockfile are present; the landing page includes the logo, abstract, three distinct mockups, and required detail values; no manifest/service worker/install/offline/API behavior was added; semantic headings and image alt text are present; mobile CSS is provided.
+- Independent checks: npm run lint passed; npm run typecheck passed; npm test passed (1 file, 2 tests); git diff --check passed.
+- Independent asset checks: icon-192.png is 192x192 PNG, icon-512.png is 512x512 PNG, and all four committed images are browser-loadable; SHA-256 comparison confirms frontend/public/assets/icon.png and logo.png match docs/img/icon.png and docs/img/logo.png respectively.
+- npm ci and production build were not rerun because this review is restricted to read-only verification and those commands write installation/build output; the task contains the Coder's recorded evidence that both passed.
+
+Task status remains controlled by the Human; this review does not change it.
+---
+
+author: Human
+created: 2026-08-09 22:33
+---
+This is only the landing page. In next iteration we'll transform it in shadcn ui application.
 ---
 <!-- COMMENTS:END -->
 
