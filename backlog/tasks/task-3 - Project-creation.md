@@ -1,10 +1,10 @@
 ---
 id: TASK-3
 title: Project creation
-status: Ready
+status: In Progress
 assignee: []
 created_date: '2026-08-09 21:50'
-updated_date: '2026-08-09 22:02'
+updated_date: '2026-08-09 22:20'
 labels:
   - Sprint1
 milestone: m-0
@@ -21,21 +21,21 @@ Create a new folder "frontend" and create a new typescript react shadcn project 
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 A `frontend` workspace exists as a Vite TypeScript React project and can be installed and run using the repository-approved npm workflow.
-- [ ] #2 The landing page renders the copied until logo and a concise abstract section describing the product.
-- [ ] #3 The landing page renders three clearly distinguishable static mockup views: an existing-deadlines list, a new-deadline creation view, and an existing-deadline detail view.
-- [ ] #4 The detail mockup visibly includes a deadline name, start date, end date, progress, and remaining value.
-- [ ] #5 The copied website icon and standard manifest icon assets are present at 192x192 and 512x512, derived from `docs/img/icon.png`; no service worker, install prompt, offline behavior, or functional PWA is required.
-- [ ] #6 The landing page is usable as a static responsive page on desktop and mobile viewport widths, with meaningful image alternative text and a logical heading structure.
+- [x] #1 A `frontend` workspace exists as a Vite TypeScript React project and can be installed and run using the repository-approved npm workflow.
+- [x] #2 The landing page renders the copied until logo and a concise abstract section describing the product.
+- [x] #3 The landing page renders three clearly distinguishable static mockup views: an existing-deadlines list, a new-deadline creation view, and an existing-deadline detail view.
+- [x] #4 The detail mockup visibly includes a deadline name, start date, end date, progress, and remaining value.
+- [x] #5 The copied website icon and standard manifest icon assets are present at 192x192 and 512x512, derived from `docs/img/icon.png`; no service worker, install prompt, offline behavior, or functional PWA is required.
+- [x] #6 The landing page is usable as a static responsive page on desktop and mobile viewport widths, with meaningful image alternative text and a logical heading structure.
 <!-- AC:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 All task-scoped frontend, asset, and styling changes are contained within the new `frontend` workspace; no backend or unrelated repository files are modified.
-- [ ] #2 The implementation uses the Vite TypeScript React direction and the project-approved npm scripts and dependency lockfile are consistent.
-- [ ] #3 Automated validation passes for the affected workspace: `npm ci`, lint, typecheck, tests, and production build.
-- [ ] #4 The copied logo/icon assets and generated 192x192 and 512x512 icon files are checked for correct paths, dimensions, and browser-loadable formats.
-- [ ] #5 The static landing page and mockup content are reviewed at desktop and mobile viewport widths, including basic keyboard and text alternative checks.
+- [x] #1 All task-scoped frontend, asset, and styling changes are contained within the new `frontend` workspace; no backend or unrelated repository files are modified.
+- [x] #2 The implementation uses the Vite TypeScript React direction and the project-approved npm scripts and dependency lockfile are consistent.
+- [x] #3 Automated validation passes for the affected workspace: `npm ci`, lint, typecheck, tests, and production build.
+- [x] #4 The copied logo/icon assets and generated 192x192 and 512x512 icon files are checked for correct paths, dimensions, and browser-loadable formats.
+- [x] #5 The static landing page and mockup content are reviewed at desktop and mobile viewport widths, including basic keyboard and text alternative checks.
 - [ ] #6 The task remains in `To Do` with all preparation checklist items unchecked; no implementation approval or implementation work is recorded.
 <!-- DOD:END -->
 
@@ -52,6 +52,12 @@ Create a new folder "frontend" and create a new typescript react shadcn project 
 
 Risks: exact branding copy is unspecified, so keep copy concise and local; generated icon output must retain the source icon’s visual identity; avoid accidentally adding a manifest, service worker, API calls, or interactive deadline behavior outside this task.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implementation evidence: created frontend Vite React TypeScript workspace with npm lockfile and scripts for lint, typecheck, test, and build. Added static responsive landing page with semantic hero, abstract, list/create/detail deadline mockups, and required detail values. Copied docs/img/logo.png and docs/img/icon.png to frontend/public/assets; generated browser-loadable PNG icons at 192x192 and 512x512. Asset validation: icon.png 1254x1254, icon-192.png 192x192, icon-512.png 512x512, logo.png 1536x1024. Browser review: desktop DOM contained all approved sections and values; 390x844 mobile viewport rendered all images complete with scrollWidth 375 (no horizontal overflow); keyboard Tab moved from See the preview to Explore until. Quality gate: npm ci dependency install completed with a Windows cleanup warning for a locked generated node_modules binary; after clean npm install, npm run lint passed, npm run typecheck passed, npm test passed (1 file, 2 tests), npm run build passed. No backend, API, manifest, service worker, install prompt, offline behavior, or functional deadline behavior added.
+<!-- SECTION:NOTES:END -->
 
 ## Comments
 
@@ -104,3 +110,9 @@ Remaining assumptions for Human review:
 - Supported-browser performance thresholds and exact visual branding copy are not specified; validation will cover responsive layout, accessibility basics, and the repository quality gate.
 ---
 <!-- COMMENTS:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implemented TASK-3 on the dedicated task-3-project-creation branch. Added a Vite TypeScript React frontend workspace with npm lockfile, quality scripts, copied until logo/icon assets, 192px and 512px PNG icon variants, and a responsive static landing page. The page includes the abstract, deadline list/create/detail mockups, and detail values for name, dates, progress, and remaining time. Verified with asset dimension/format inspection, desktop DOM review, 390px mobile review without horizontal overflow, keyboard focus review, npm ci/install, lint, typecheck, 2 passing tests, and production build. No backend, API, manifest, service worker, install prompt, offline behavior, or functional deadline interactions were added. DoD item #6 remains unchecked because it conflicts with the approved implementation workflow and current In Progress status.
+<!-- SECTION:FINAL_SUMMARY:END -->
