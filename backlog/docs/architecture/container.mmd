@@ -1,0 +1,13 @@
+flowchart TB
+    Web[TypeScript React SPA/PWA\nHTML5 + shadcn]
+    Api[Java backend API\nQuarkus or Spring Boot]
+    Domain[Weather domain\nplanned]
+    Adapter[Provider adapter\nplanned]
+    External[External weather service\nnot selected]
+    Future[Future microservices\nnot current scope]
+
+    Web --> Api
+    Api --> Domain
+    Domain --> Adapter
+    Adapter -.-> External
+    Api -.-> Future
