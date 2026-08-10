@@ -1,10 +1,10 @@
 ---
 id: TASK-8
 title: Aggiungere lo scheletro shadcn dell'app su /app
-status: Ready
+status: In Progress
 assignee: []
 created_date: '2026-08-10 15:08'
-updated_date: '2026-08-10 15:14'
+updated_date: '2026-08-10 20:28'
 labels: []
 milestone: m-0
 dependencies: []
@@ -21,20 +21,20 @@ Introdurre la prima integrazione di shadcn/ui nel frontend Vite. La funzionalit�
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 The existing `frontend` Vite TypeScript workspace is configured with Tailwind CSS and shadcn/ui using application-owned component files, and the project builds with those styles and components applied.
-- [ ] #2 React Router renders the existing landing page at `/` and for an unknown client-side path, while `/app` renders the static application-area shell.
-- [ ] #3 At `/app`, the shell follows the current official shadcn `sidebar-16` structural pattern: a sidebar, the block’s sticky header regions, and static main content are visible; neutral labels are used and the sidebar contains exactly one visible menu action named `List`.
-- [ ] #4 The `/app` sidebar provides the sidebar-16-style responsive mobile and tablet experience: it can be opened and closed using a visible control, the control is keyboard-operable with an accessible name, and the shell remains usable without horizontal page overflow at 375 px, 768 px, and a desktop viewport.
-- [ ] #5 All `/app` content and controls are static and non-functional: no API requests, authentication, persistence, real deadline data, working list flow, service worker, or offline behavior is introduced.
+- [x] #1 The existing `frontend` Vite TypeScript workspace is configured with Tailwind CSS and shadcn/ui using application-owned component files, and the project builds with those styles and components applied.
+- [x] #2 React Router renders the existing landing page at `/` and for an unknown client-side path, while `/app` renders the static application-area shell.
+- [x] #3 At `/app`, the shell follows the current official shadcn `sidebar-16` structural pattern: a sidebar, the block’s sticky header regions, and static main content are visible; neutral labels are used and the sidebar contains exactly one visible menu action named `List`.
+- [x] #4 The `/app` sidebar provides the sidebar-16-style responsive mobile and tablet experience: it can be opened and closed using a visible control, the control is keyboard-operable with an accessible name, and the shell remains usable without horizontal page overflow at 375 px, 768 px, and a desktop viewport.
+- [x] #5 All `/app` content and controls are static and non-functional: no API requests, authentication, persistence, real deadline data, working list flow, service worker, or offline behavior is introduced.
 <!-- AC:END -->
 
 ## Definition of Done
 <!-- DOD:BEGIN -->
-- [ ] #1 Task-scoped changes are limited to the existing `frontend` workspace and its necessary dependency lockfile updates; no backend or unrelated repository changes are introduced.
-- [ ] #2 Automated frontend tests verify route selection for `/`, `/app`, and an unknown path, plus the `/app` shell’s `List` navigation label and accessible responsive-sidebar control.
-- [ ] #3 The affected frontend workspace passes `npm ci`, `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`.
-- [ ] #4 Browser verification records desktop, 768 px tablet, and 375 px mobile views of `/app`, confirming the sticky header regions, responsive sidebar interaction, keyboard operation, and no horizontal overflow.
-- [ ] #5 The implementation uses only static display content and does not add a backend call, credential, authentication, persistence, deadline workflow, service worker, or offline feature.
+- [x] #1 Task-scoped changes are limited to the existing `frontend` workspace and its necessary dependency lockfile updates; no backend or unrelated repository changes are introduced.
+- [x] #2 Automated frontend tests verify route selection for `/`, `/app`, and an unknown path, plus the `/app` shell’s `List` navigation label and accessible responsive-sidebar control.
+- [x] #3 The affected frontend workspace passes `npm ci`, `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`.
+- [x] #4 Browser verification records desktop, 768 px tablet, and 375 px mobile views of `/app`, confirming the sticky header regions, responsive sidebar interaction, keyboard operation, and no horizontal overflow.
+- [x] #5 The implementation uses only static display content and does not add a backend call, credential, authentication, persistence, deadline workflow, service worker, or offline feature.
 <!-- DOD:END -->
 
 ## Implementation Plan
@@ -50,6 +50,12 @@ Introdurre la prima integrazione di shadcn/ui nel frontend Vite. La funzionalit�
 
 Risks: shadcn/ui versions and the sidebar-16 block can evolve, so implementation must use the compatible current official Vite setup and retain the specified structural/responsive behavior rather than copying unrelated example content. Router integration must not regress the existing landing page or accidentally turn the static `List` item into a data-driven feature.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implementation evidence (2026-08-10): frontend-only implementation adds the Vite-compatible Tailwind CSS/shadcn foundation, application-owned sidebar primitives, React Router routes, static /app shell, and focused route/accessibility tests. Quality gate passed in frontend: npm ci (445 packages, 0 vulnerabilities), npm run lint (pass; two shadcn Fast Refresh warnings), npm run typecheck (pass), npm test (2 files / 5 tests passed), npm run build (pass). Browser verification on http://localhost:5173/app at 375x800, 768x800, and 1440x900 confirmed List shell visibility, labeled sidebar control, keyboard Enter activation, and document scrollWidth not exceeding viewport width; sticky header regions were visible in the rendered shell. No API, authentication, persistence, deadline workflow, service worker, or offline behavior was added.
+<!-- SECTION:NOTES:END -->
 
 ## Comments
 
@@ -104,3 +110,9 @@ Remaining assumptions for Human review:
 - No backend framework choice or ADR is required because no backend architecture is introduced.
 ---
 <!-- COMMENTS:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Implemented TASK-8 in the frontend: configured Tailwind CSS and shadcn/ui with application-owned components, added React Router fallback behavior, and introduced a static responsive /app sidebar shell with exactly one List action and sticky header/content regions. Added focused route and accessibility tests while preserving the landing page. Verified with npm ci, npm run lint, npm run typecheck, npm test, npm run build, and browser checks at 375 px, 768 px, and desktop widths. Ready for Human verification; no backend or merge changes included.
+<!-- SECTION:FINAL_SUMMARY:END -->

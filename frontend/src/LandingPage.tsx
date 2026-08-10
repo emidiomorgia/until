@@ -13,9 +13,9 @@ const deadlines: Deadline[] = [
   { name: 'Read 12 books', date: 'Dec 31, 2026', status: 'In progress', accent: 'orange' },
 ]
 
-function App() {
+function LandingPage() {
   return (
-    <main>
+    <main className="landing-page">
       <nav className="topbar" aria-label="Primary navigation">
         <a className="brand" href="#top" aria-label="until home">
           <img src="/assets/logo.png" alt="until" />
@@ -94,4 +94,4 @@ function App() {
   )
 }
 
-export default App
+export default LandingPage;

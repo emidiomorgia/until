@@ -1,4 +1,4 @@
-main { overflow: hidden; }
+main.landing-page { overflow: hidden; }
 .topbar, .hero, .preview-section, footer { width: min(1180px, calc(100% - 64px)); margin-inline: auto; }
 .topbar { display:flex; align-items:center; justify-content:space-between; padding: 28px 0; border-bottom: 1px solid #dedbd5; }
 .brand img { width: 106px; display:block; }
@@ -8,9 +8,9 @@ main { overflow: hidden; }
 .hero { min-height: 610px; display:grid; grid-template-columns: 1fr 1fr; align-items:center; position:relative; }
 .hero-copy { padding: 86px 0 100px; position:relative; z-index:1; }
 .eyebrow { color:#5e4ed5; margin:0 0 20px; }
-h1,h2,h3 { font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-.065em; margin:0; }
-h1 { font-size: clamp(64px, 9vw, 122px); line-height:.88; }
-h1 em,h2 em { color:#5e4ed5; font-style:normal; }
+.landing-page h1,.landing-page h2,.landing-page h3 { font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-.065em; margin:0; }
+.landing-page h1 { font-size: clamp(64px, 9vw, 122px); line-height:.88; }
+.landing-page h1 em,.landing-page h2 em { color:#5e4ed5; font-style:normal; }
 .abstract { color:#6e696a; font-size:17px; line-height:1.55; max-width:390px; margin:32px 0; }
 .primary-button { display:inline-flex; gap:30px; align-items:center; background:#5e4ed5; color:#fff; border-radius:100px; padding:15px 19px 15px 22px; font-size:13px; }
 .hero-orbit { width:min(40vw,470px); height:min(40vw,470px); justify-self:end; position:relative; }
@@ -22,7 +22,7 @@ h1 em,h2 em { color:#5e4ed5; font-style:normal; }
 .hero-icon img { width:57%; height:57%; object-fit:contain; filter:brightness(0) invert(1); }
 .preview-section { padding:90px 0 120px; }
 .section-heading { display:flex; justify-content:space-between; align-items:end; margin-bottom:46px; }
-h2 { font-size:clamp(42px, 6vw, 75px); line-height:.92; }
+.landing-page h2 { font-size:clamp(42px, 6vw, 75px); line-height:.92; }
 .mockups { display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:20px; align-items:start; }
 .mockup:nth-child(2) { margin-top:80px; }.mockup:nth-child(3) { margin-top:32px; }
 .mockup-label { color:#88817d; margin-bottom:14px; }.mockup-label span { color:#5e4ed5; margin-right:8px; }
