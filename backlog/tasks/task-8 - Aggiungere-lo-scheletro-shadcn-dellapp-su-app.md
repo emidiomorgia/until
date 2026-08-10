@@ -1,10 +1,10 @@
 ---
 id: TASK-8
 title: Aggiungere lo scheletro shadcn dell'app su /app
-status: In Review
+status: In Progress
 assignee: []
 created_date: '2026-08-10 15:08'
-updated_date: '2026-08-10 20:29'
+updated_date: '2026-08-10 20:37'
 labels: []
 milestone: m-0
 dependencies: []
@@ -55,6 +55,8 @@ Risks: shadcn/ui versions and the sidebar-16 block can evolve, so implementation
 
 <!-- SECTION:NOTES:BEGIN -->
 Implementation evidence (2026-08-10): frontend-only implementation adds the Vite-compatible Tailwind CSS/shadcn foundation, application-owned sidebar primitives, React Router routes, static /app shell, and focused route/accessibility tests. Quality gate passed in frontend: npm ci (445 packages, 0 vulnerabilities), npm run lint (pass; two shadcn Fast Refresh warnings), npm run typecheck (pass), npm test (2 files / 5 tests passed), npm run build (pass). Browser verification on http://localhost:5173/app at 375x800, 768x800, and 1440x900 confirmed List shell visibility, labeled sidebar control, keyboard Enter activation, and document scrollWidth not exceeding viewport width; sticky header regions were visible in the rendered shell. No API, authentication, persistence, deadline workflow, service worker, or offline behavior was added.
+
+Rework evidence (2026-08-10): replaced the sidebar placeholder mark with the application asset /assets/icon.png sourced from docs/img/icon.png, capitalized the sidebar brand to Until, and changed the toolbar title to Until. Focused browser verification at http://localhost:5173/app confirmed header title Until, sidebar image source /assets/icon.png, and no horizontal overflow. npm run lint, npm run typecheck, npm test (2 files / 5 tests), and npm run build all passed; existing non-blocking shadcn Fast Refresh and Vite __dirname warnings remain.
 <!-- SECTION:NOTES:END -->
 
 ## Comments
@@ -114,5 +116,5 @@ Remaining assumptions for Human review:
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Implemented TASK-8 in the frontend: configured Tailwind CSS and shadcn/ui with application-owned components, added React Router fallback behavior, and introduced a static responsive /app sidebar shell with exactly one List action and sticky header/content regions. Added focused route and accessibility tests while preserving the landing page. Verified with npm ci, npm run lint, npm run typecheck, npm test, npm run build, and browser checks at 375 px, 768 px, and desktop widths. Ready for Human verification; no backend or merge changes included.
+Applied the requested branding rework to TASK-8: the sidebar now uses the Until icon asset and the toolbar title is Until. Verified with focused browser DOM inspection plus npm run lint, npm run typecheck, npm test, and npm run build. Ready for Human verification.
 <!-- SECTION:FINAL_SUMMARY:END -->

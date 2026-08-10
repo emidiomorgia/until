@@ -16,7 +16,7 @@ export default function AppShell() {
           <SidebarTrigger aria-label="Open or close application sidebar" />
           <SidebarSeparator orientation="vertical" className="mr-2 h-4" />
           <div className="flex min-w-0 flex-col">
-            <p className="truncate text-sm font-medium">Application area</p>
+            <p className="truncate text-sm font-medium">Until</p>
             <p className="truncate text-xs text-muted-foreground">Static workspace</p>
           </div>
         </header>

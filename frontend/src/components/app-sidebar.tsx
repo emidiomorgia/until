@@ -38,9 +38,13 @@ export default function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="h-16 flex-row items-center justify-between px-4">
         <div className="flex min-w-0 items-center gap-2">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">u</div>
+          <img
+            src="/assets/icon.png"
+            alt=""
+            className="size-8 rounded-lg object-cover"
+          />
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">until</p>
+            <p className="truncate text-sm font-semibold">Until</p>
             <p className="truncate text-xs text-sidebar-foreground/60">Application shell</p>
           </div>
         </div>
