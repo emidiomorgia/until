@@ -1,11 +1,11 @@
 ---
 id: TASK-6
 title: Github Action for CI and CD
-status: In Review
+status: Done
 assignee:
   - '@codex'
 created_date: '2026-08-10 11:57'
-updated_date: '2026-08-10 13:21'
+updated_date: '2026-08-10 13:26'
 labels: []
 milestone: m-0
 dependencies: []
@@ -13,7 +13,7 @@ references:
   - 'https://github.com/emidiomorgia/until/issues/7'
 priority: high
 type: feature
-ordinal: 1000
+ordinal: 6000
 ---
 
 ## Description
@@ -110,6 +110,24 @@ author: @codex
 created: 2026-08-10 13:20
 ---
 Coder implementation evidence: on branch task-6-github-action-ci-cd, added .github/workflows/ci.yml for pull requests targeting main with npm ci, lint, typecheck, tests, and build; renamed the publication workflow to .github/workflows/cd.yml and preserved the x.y.z tag filter, matching a.b.x ancestry guard, frontend checks, Docker build, DOCKERHUB_USERNAME/DOCKERHUB_TOKEN login, current image identity emidio78/until-frontend, and release/latest tags. Static workflow inspection passed; npm ci, lint, typecheck, npm test (1 file, 2 tests), npm run build, and git diff --check passed. actionlint/yamllint are unavailable and Docker Desktop Linux daemon is unavailable, so remote Actions parsing and Docker Hub/publication verification remain environment-dependent.
+---
+
+author: @reviewer
+created: 2026-08-10 13:24
+---
+Review report — TASK-6
+
+Findings: None.
+
+Verification performed:
+- Confirmed TASK-6 is In Review and implementation evidence is recorded.
+- Read the complete prepared task, AGENTS.md, operating model, project technology guidance, product constraints/vision, quality attributes, architecture, and full diff against origin/main.
+- Confirmed the diff is limited to the role-based workflow changes and Backlog task metadata: deploy-static-website.yml renamed to cd.yml and ci.yml added; no application, backend, Dockerfile, Render, SSL, or unrelated files changed.
+- Static inspection passed for CI pull requests targeting main, npm ci/lint/typecheck/test/build commands, explicit future-work coverage/security note, CD x.y.z tag filtering, matching a.b.x ancestry guard, repeated frontend checks, Docker build/push action, secret-based Docker Hub login, current image identity, exact release plus latest tags, and removal of the old publication workflow.
+- git diff --check origin/main...HEAD passed; working tree is clean and branch tracks origin/task-6-github-action-ci-cd.
+- Reviewed the recorded local quality-gate evidence: npm ci, lint, typecheck, npm test (1 file, 2 tests), and production build passed. Docker Desktop Linux daemon and actionlint/yamllint were unavailable, as already recorded; these remain environment-dependent verification limits rather than implementation findings.
+
+No blocking issues or out-of-scope behavior were identified. Task status remains controlled by the Human; no status decision or merge was performed.
 ---
 <!-- COMMENTS:END -->
 
