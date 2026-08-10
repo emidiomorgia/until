@@ -5,9 +5,10 @@ status: Done
 assignee:
   - '@Emidio'
 created_date: '2026-08-09 21:37'
-updated_date: '2026-08-09 21:39'
+updated_date: '2026-08-10 13:02'
 labels:
   - documentation architecture
+milestone: m-0
 dependencies: []
 priority: medium
 type: docs
