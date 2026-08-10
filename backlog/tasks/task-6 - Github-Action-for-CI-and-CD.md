@@ -1,11 +1,11 @@
 ---
 id: TASK-6
 title: Github Action for CI and CD
-status: In Progress
+status: In Review
 assignee:
   - '@codex'
 created_date: '2026-08-10 11:57'
-updated_date: '2026-08-10 13:20'
+updated_date: '2026-08-10 13:21'
 labels: []
 milestone: m-0
 dependencies: []
