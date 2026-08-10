@@ -1,11 +1,11 @@
 ---
 id: TASK-9
 title: Serve the production React SPA with Nginx
-status: In Review
+status: Done
 assignee:
   - '@Emidio Morgia'
 created_date: '2026-08-10 20:59'
-updated_date: '2026-08-10 21:27'
+updated_date: '2026-08-10 21:29'
 labels:
   - Sprint1
 milestone: m-0
@@ -18,7 +18,7 @@ modified_files:
   - frontend/nginx.conf
 priority: high
 type: enhancement
-ordinal: 1000
+ordinal: 9000
 ---
 
 ## Description
