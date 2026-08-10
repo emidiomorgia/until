@@ -1,11 +1,11 @@
 ---
 id: TASK-9
 title: Serve the production React SPA with Nginx
-status: In Progress
+status: In Review
 assignee:
   - '@Emidio Morgia'
 created_date: '2026-08-10 20:59'
-updated_date: '2026-08-10 21:26'
+updated_date: '2026-08-10 21:27'
 labels:
   - Sprint1
 milestone: m-0
@@ -55,6 +55,16 @@ Implementation progress (2026-08-10): replaced the Node serve runtime with nginx
 
 Container verification (2026-08-10): docker build -t until-frontend:task-9 . completed successfully. docker run HTTP checks returned 200 text/html for /, /app, and /not-a-real-route, and 200 application/javascript for the generated hashed asset /assets/index-B1zv619d.js. nginx -t passed; runtime inspection confirmed node-absent, static-only files, and no proxy_pass. Frontend lint, typecheck, tests (2 files/5 tests), build, and git diff --check passed; lint retained two existing Fast Refresh warnings and Vite emitted its existing configLoader native warning.
 <!-- SECTION:NOTES:END -->
+
+## Comments
+
+<!-- COMMENTS:BEGIN -->
+author: @Emidio Morgia
+created: 2026-08-10 21:27
+---
+Coder handoff complete. Commit 2cb79a8 pushed as origin/task-9-nginx after all acceptance criteria, task-specific DoD checks, frontend quality checks, Docker build, and container HTTP verification passed. Awaiting Human verification and independent Reviewer invitation; no merge performed.
+---
+<!-- COMMENTS:END -->
 
 ## Final Summary
 
