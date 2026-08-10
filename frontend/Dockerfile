@@ -17,6 +17,6 @@ RUN npm install --global serve@14.2.4 \
 
 COPY --from=build /app/dist ./dist
 
-EXPOSE 4173
+EXPOSE 80
 
-CMD ["serve", "dist", "--listen", "tcp://0.0.0.0:4173"]
+CMD ["serve", "dist", "--listen", "tcp://0.0.0.0:80"]
