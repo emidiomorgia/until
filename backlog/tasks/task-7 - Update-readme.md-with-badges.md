@@ -1,7 +1,7 @@
 ---
 id: TASK-7
 title: Update readme.md with badges
-status: In Progress
+status: In Review
 assignee:
   - '@codex'
 created_date: '2026-08-10 13:39'
