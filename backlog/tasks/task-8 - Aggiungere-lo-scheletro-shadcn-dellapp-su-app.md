@@ -1,10 +1,10 @@
 ---
 id: TASK-8
 title: Aggiungere lo scheletro shadcn dell'app su /app
-status: In Progress
+status: In Review
 assignee: []
 created_date: '2026-08-10 15:08'
-updated_date: '2026-08-10 20:28'
+updated_date: '2026-08-10 20:29'
 labels: []
 milestone: m-0
 dependencies: []
