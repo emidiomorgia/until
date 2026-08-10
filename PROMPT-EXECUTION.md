@@ -38,10 +38,11 @@ Verification and handoff:
 3. Compare the final diff explicitly against every acceptance criterion, analysis decision, and any relevant optional SPEC requirement.
 4. Verify that affected documentation is updated and that no unrelated files were modified.
 5. Record commands, results, decisions, limitations, and completion evidence in the Backlog task through the Backlog.md workflow.
-6. Complete the `Final Summary` as structured Markdown for independent review, using the required template below. The field must include the exact shell commands executed and the task-scoped modified file list.
-7. After all acceptance criteria and Definition of Done items are verified, record the evidence and complete the `Final Summary`.
-8. Commit all task changes with a task-identifying commit message and push the dedicated working branch to the remote. Verify that the commit and push succeeded; if either fails, stop and report the failure without moving the task to `In Review`.
-9. Only after the commit and push succeed, move the task to `In Review` and report completion to the Human. Do not move it to `Done` and never merge any branch; the Human verifies the handoff, explicitly invites the independent Reviewer, and controls any later merge decision.
+6. Apply the common Definition of Done in `backlog/docs/operating-model.md`; treat the task's Definition of Done as additional task-specific requirements only.
+7. Complete the `Final Summary` as structured Markdown for independent review, using the required template below. The field must include the exact shell commands executed and the task-scoped modified file list.
+8. After all acceptance criteria, the common Definition of Done, and task-specific Definition of Done items are verified, record the evidence and complete the `Final Summary`.
+9. Commit all task changes with a task-identifying commit message and push the dedicated working branch to the remote. Verify that the commit and push succeeded; if either fails, stop and report the failure without moving the task to `In Review`.
+10. Only after the commit and push succeed, move the task to `In Review` and report completion to the Human. Do not move it to `Done` and never merge any branch; the Human verifies the handoff, explicitly invites the independent Reviewer, and controls any later merge decision.
 
 Never mark the task `Done` yourself. Do not hand off the task while a required check has not been executed, has failed, or lacks recorded verification evidence.
 
@@ -77,3 +78,4 @@ Final Summary rules:
 - Include the result of each listed command and all meaningful warnings or limitations.
 - Keep the sections in the template unless a section is genuinely not applicable; state `None` when appropriate.
 - Do not use a prose-only summary: the structured Markdown, command log, and modified-file list are mandatory.
+- Do not repeat the repository-wide common Definition of Done in the task's own checklist; verify it from `backlog/docs/operating-model.md`.

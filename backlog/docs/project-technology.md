@@ -2,6 +2,8 @@
 
 This document contains technology-specific commands and tools for `until`. It is intentionally separate from the reusable agent workflow in `AGENTS.md`.
 
+The repository-wide completion baseline is defined in [the common Definition of Done](operating-model.md#common-definition-of-done). Task-specific checklists must add only technology or behavior checks that are unique to the task.
+
 ## Repository and stack
 
 `until` is a monorepo. The current product is a TypeScript web SPA/PWA built with HTML5, React, and shadcn. Its backend is Java using either Quarkus or Spring Boot; the framework choice must be recorded in a prepared task before implementation. The repository may evolve toward independently deployable microservices later, but microservices are not a current implementation requirement.

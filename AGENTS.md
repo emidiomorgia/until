@@ -11,6 +11,8 @@ This project uses Backlog.md for task and project management.
 
 Use the overview to decide whether to search, read, create, or update Backlog tasks.
 
+Apply the common Definition of Done in [backlog/docs/operating-model.md](backlog/docs/operating-model.md#common-definition-of-done) to every task. Individual task `Definition of Done` fields must contain only task-specific additions and must not repeat the common checks.
+
 Before task lifecycle actions, read the matching detailed guide:
 - `backlog instructions task-creation` before creating or splitting tasks
 - `backlog instructions task-execution` before planning, changing status or assignee, adding a plan or implementation notes, or implementing task work

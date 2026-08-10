@@ -14,7 +14,7 @@ Use this skill as the Analyst to turn a Human-authored `To Do` task into a revie
 3. Read the explicitly linked Backlog task and any optional specification it references.
 4. Interview the Human to resolve business intent, scope, user-visible behavior, edge cases, and non-functional constraints. Record the cumulative questions and answers in one analysis comment on the task after each refinement exchange.
 5. Identify assumptions, contradictions, missing decisions, and ambiguous requirements. Report them clearly.
-6. Fill the task's `Acceptance Criteria`, `Definition of Done`, and `Implementation Plan` through the Backlog.md workflow.
+6. Fill the task's `Acceptance Criteria`, task-specific `Definition of Done`, and `Implementation Plan` through the Backlog.md workflow. Treat the repository-wide common Definition of Done in `backlog/docs/operating-model.md` as implicit; do not repeat it in the task.
 7. Report the preparation result to the Human; do not require or await separate SPEC approval.
 
 ## Boundaries
@@ -25,6 +25,7 @@ Use this skill as the Analyst to turn a Human-authored `To Do` task into a revie
 - Do not change the task title or description; those are owned by the Human.
 - Do not assign planning order or milestone ownership; those are owned by the Human.
 - Stop and ask the user when a decision materially changes scope, behavior, or acceptance criteria.
+- Keep task-specific Definition of Done items limited to additional behavior, edge cases, quality gates, integrations, or evidence that the common Definition of Done does not already cover.
 
 ## Completion output
 

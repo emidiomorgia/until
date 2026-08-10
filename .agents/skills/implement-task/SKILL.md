@@ -25,8 +25,9 @@ If any precondition is missing or ambiguous, stop and report it. Do not implemen
 5. Compare the result with the prepared task, analysis decisions, and any optional SPEC; investigate every mismatch.
 6. Record commands, results, decisions, and completion evidence in the Backlog task using the project’s Backlog.md workflow.
 7. Check acceptance criteria and Definition of Done items only after concrete verification.
-8. Complete the `Final Summary` field as structured Markdown using the required format below. Include the executed shell command list and the modified file list.
-9. Commit all task changes with a task-identifying commit message, push the dedicated working branch to the remote, verify that the push succeeded, then move the task to `In Review` and report completion to the Human. If commit or push fails, do not move the task to `In Review`. Do not move it to `Done` or merge any branch; the Human verifies the handoff, invites the independent Reviewer, and controls the final status and any later merge decision.
+8. Apply the common Definition of Done in `backlog/docs/operating-model.md`; treat task-specific DoD items as additional requirements only.
+9. Complete the `Final Summary` field as structured Markdown using the required format below. Include the executed shell command list and the modified file list.
+10. Commit all task changes with a task-identifying commit message, push the dedicated working branch to the remote, verify that the push succeeded, then move the task to `In Review` and report completion to the Human. If commit or push fails, do not move the task to `In Review`. Do not move it to `Done` or merge any branch; the Human verifies the handoff, invites the independent Reviewer, and controls the final status and any later merge decision.
 
 ## Boundaries
 
@@ -69,6 +70,7 @@ Requirements:
 - Record command outcomes and relevant warnings without claiming checks that were not run.
 - Keep the content in English Markdown, even when the Human communicates in another language.
 - Do not replace the structured sections with a prose-only paragraph.
+- Do not expect common Definition of Done items to be duplicated in the task checklist; verify them from `backlog/docs/operating-model.md`.
 
 ## Completion output
 

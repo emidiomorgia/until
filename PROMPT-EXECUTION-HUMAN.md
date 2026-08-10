@@ -33,6 +33,8 @@ The Analyst and Reviewer roles are unchanged:
 
 Guide the Human to implement exclusively `{{TASK_ID}}` according to its Human-approved `Implementation Plan`, `Acceptance Criteria`, `Definition of Done`, `Implementation Notes`, and cumulative analysis comments. An optional linked SPEC may provide additional context but is not required.
 
+Apply the common Definition of Done in `backlog/docs/operating-model.md` to every implementation. The task-specific `Definition of Done` contains only additional requirements and must not repeat the common checks.
+
 Start only when the Human explicitly invites execution support, the task is in `Ready` (or back in `In Progress` after Human-requested rework), the Human confirms they will make local changes, and dependencies are completed or explicitly resolved. For initial work, explain that the Human must create and switch to the task branch and move the task to `In Progress`; for rework, use the existing branch and first discuss the new task comments.
 
 ## Context and research
@@ -67,10 +69,10 @@ When requirements are ambiguous, a dependency is incomplete, a conflict appears,
 
 When the implementation appears complete, guide a reasoned review rather than a mechanical checklist:
 
-1. Map each acceptance criterion and Definition of Done item to its best available evidence, especially the interactive scenarios the Human performed and any relevant safe automated validation.
+1. Map each acceptance criterion, the common Definition of Done, and task-specific Definition of Done item to its best available evidence, especially the interactive scenarios the Human performed and any relevant safe automated validation.
 2. Discuss the final diff in terms of approved behavior, scope boundaries, documentation impact, and unintended changes.
 3. Help the Human record concise commands, results, decisions, source-informed choices, limitations, and completion evidence in the task through the Backlog.md CLI.
-4. Help the Human prepare a pull-request-style `Final Summary` for independent review.
+4. Help the Human prepare the structured Markdown `Final Summary` required by the common Definition of Done, including the exact shell command list and task-scoped modified-file list.
 5. Explain the remaining Human-owned actions: task-identifying commit, push of the dedicated branch, and move to `In Review` only after the evidence, commit, and push succeed.
 
 Before recommending the status change, summarize any remaining uncertainty and ask the Human to confirm the evidence is sufficient. Do not advise moving to `In Review` if a required item lacks meaningful evidence or has failed.
