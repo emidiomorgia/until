@@ -1,17 +1,17 @@
 ---
 id: TASK-7
 title: Update readme.md with badges
-status: In Review
+status: Done
 assignee:
   - '@codex'
 created_date: '2026-08-10 13:39'
-updated_date: '2026-08-10 13:48'
+updated_date: '2026-08-10 20:24'
 labels: []
 milestone: m-0
 dependencies: []
 priority: high
 type: feature
-ordinal: 1000
+ordinal: 7000
 ---
 
 ## Description
