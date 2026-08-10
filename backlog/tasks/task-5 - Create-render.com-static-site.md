@@ -1,10 +1,10 @@
 ---
 id: TASK-5
 title: Create render.com static site
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-08-10 08:51'
-updated_date: '2026-08-10 08:51'
+updated_date: '2026-08-10 11:07'
 labels: []
 milestone: m-0
 dependencies: []
@@ -12,7 +12,7 @@ references:
   - 'https://github.com/emidiomorgia/until/issues/2'
 priority: high
 type: feature
-ordinal: 4000
+ordinal: 5000
 ---
 
 ## Description

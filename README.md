@@ -18,6 +18,9 @@
     <img src="https://img.shields.io/badge/React-18%2B-61DAFB?logo=react&logoColor=white" alt="React 18 or newer" />
     <img src="https://img.shields.io/badge/TypeScript-5%2B-3178C6?logo=typescript&logoColor=white" alt="TypeScript 5 or newer" />
     <img src="https://img.shields.io/badge/UI-shadcn%2Fui-black" alt="shadcn/ui" />
+    <a href="https://github.com/emidiomorgia/until/actions/workflows/ci.yml"><img src="https://github.com/emidiomorgia/until/actions/workflows/ci.yml/badge.svg" alt="CI: Frontend quality gate" /></a>
+    <a href="https://github.com/emidiomorgia/until/actions/workflows/cd.yml"><img src="https://github.com/emidiomorgia/until/actions/workflows/cd.yml/badge.svg" alt="CD: Publish frontend image" /></a>
+    <a href="https://hub.docker.com/r/emidio78/until-frontend/tags"><img src="https://img.shields.io/docker/v/emidio78/until-frontend?sort=semver&label=deployed" alt="Latest deployed frontend version" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license" /></a>
   </p>
 
@@ -53,6 +56,12 @@ At a high level, the system will consist of:
 | UI system | Accessible, composable components based on shadcn/ui. |
 | Domain logic | Event creation, date/time calculations, validation, and due-state classification. |
 | Persistence | Local or remote storage, to be finalized as the MVP implementation stabilizes. |
+
+## Services
+
+| Service | Public URL | CI quality gate | CD publication | Deployed version | Summary |
+| --- | --- | --- | --- | --- | --- |
+| Frontend | [until.morgia.info](https://until.morgia.info) | [CI workflow](https://github.com/emidiomorgia/until/actions/workflows/ci.yml) | [CD workflow](https://github.com/emidiomorgia/until/actions/workflows/cd.yml) | [Docker Hub semver tags](https://hub.docker.com/r/emidio78/until-frontend/tags) | React and TypeScript SPA landing page served from the published frontend image. |
 
 The first release deliberately avoids prematurely committing to authentication, a backend, or third-party calendar synchronization. Those decisions will be made after the core workflow has been validated.
 

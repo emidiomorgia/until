@@ -1,10 +1,10 @@
 ---
 id: TASK-4
 title: Create Github Action for deploy static website
-status: In Review
+status: Done
 assignee: []
 created_date: '2026-08-10 08:49'
-updated_date: '2026-08-10 09:20'
+updated_date: '2026-08-10 11:07'
 labels: []
 milestone: m-0
 dependencies: []
@@ -12,7 +12,7 @@ references:
   - 'https://github.com/emidiomorgia/until/issues/1'
 priority: high
 type: feature
-ordinal: 1000
+ordinal: 4000
 ---
 
 ## Description

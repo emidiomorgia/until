@@ -1,4 +1,4 @@
-name: Deploy static website image
+name: CD - Publish frontend image
 
 on:
   push:

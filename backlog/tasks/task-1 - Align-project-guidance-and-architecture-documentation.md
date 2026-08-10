@@ -5,13 +5,14 @@ status: Done
 assignee:
   - '@Emidio'
 created_date: '2026-08-09 21:29'
-updated_date: '2026-08-09 21:33'
+updated_date: '2026-08-10 13:03'
 labels:
   - architecture documentation
+milestone: m-0
 dependencies: []
 priority: high
 type: docs
-ordinal: 1000
+ordinal: 2000
 ---
 
 ## Description
