@@ -13,7 +13,7 @@ Evolve the architecture through small, prepared and Human-approved increments. W
 
 ## Consequences
 
-- Each architectural change is tied to a prepared GitHub Issue; significant decisions are recorded in an ADR. A separate SPEC is optional.
+- Each architectural change is tied to a prepared Backlog task; significant decisions are recorded in an ADR. A separate SPEC is optional.
 - Significant decisions are recorded as ADRs.
 - The project avoids committing to an unneeded framework or integration too early.
 - Some boundaries may remain provisional until product requirements are known.

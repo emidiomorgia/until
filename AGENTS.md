@@ -1,13 +1,24 @@
-# Repository guidance
 
-This project uses GitHub Issues as its authoritative backlog and GitHub Projects as its workflow board. The structured task format is defined by `.github/ISSUE_TEMPLATE/task.md` and `docs/github-issues-workflow.md`.
+<!-- BACKLOG.MD GUIDELINES START -->
+<!-- backlog.md-instructions-version: 1.50.0 -->
+<CRITICAL_INSTRUCTION>
 
-For every request, inspect the relevant GitHub Issue before changing code when an issue number or link is provided. For new implementation work, create or request a structured issue unless the maintainer explicitly directs inline work, as in a migration. Do not create a separate task for inline migration work.
+## Backlog.md Workflow
 
-Use `node tools/github-task.mjs` for cross-platform issue reads, body updates, comments, and issue state changes. Agents must preserve the task sections and append analysis, implementation evidence, and review history as comments where appropriate. Use the GitHub Project `Status` field for `To Do`, `Ready`, `In Progress`, `In Review`, and `Done`; issue state remains open until the Human accepts the work.
+This project uses Backlog.md for task and project management.
 
-The Human owns product intent, issue creation, preparation approval, status transitions, review decisions, and merging. The Analyst refines an issue without implementing code. The Coder implements only a Human-approved `Ready` issue, records evidence, and hands off for review. The Reviewer independently checks the increment and records findings without modifying the implementation. No agent may self-approve or merge its own work.
+**For every user request in this project, run `backlog instructions overview` before answering or taking action.**
 
-Before modifying code, read this file, `docs/github-issues-workflow.md`, relevant product and architecture documentation, the complete issue body, linked issues, and any optional specification. Keep changes within the approved issue scope and update affected documentation.
+Use the overview to decide whether to search, read, create, or update Backlog tasks.
 
-The repository is a TypeScript HTML5 React SPA/PWA monorepo. The backend direction is Java using Quarkus or Spring Boot when a task selects it. Microservices are future evolution and require explicit issue scope.
+Before task lifecycle actions, read the matching detailed guide:
+- `backlog instructions task-creation` before creating or splitting tasks
+- `backlog instructions task-execution` before planning, changing status or assignee, adding a plan or implementation notes, or implementing task work
+- `backlog instructions task-finalization` before checking acceptance criteria, writing final summaries, or moving tasks to terminal statuses
+
+Use `backlog <command> --help` before running unfamiliar commands. Help shows options, fields, and examples.
+
+Do not edit Backlog task, draft, document, decision, or milestone markdown files directly. Use the `backlog` CLI so metadata, relationships, and history stay consistent.
+
+</CRITICAL_INSTRUCTION>
+<!-- BACKLOG.MD GUIDELINES END -->

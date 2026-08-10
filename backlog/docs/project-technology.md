@@ -14,7 +14,7 @@ This document contains technology-specific commands and tools for `until`. It is
 
 ## Required automated quality gate
 
-The canonical CI definition is [`.github/workflows/quality.yml`](../.github/workflows/quality.yml). Run the equivalent checks for every affected workspace:
+The canonical CI definition is [`.github/workflows/quality.yml`](../../.github/workflows/quality.yml). Run the equivalent checks for every affected workspace:
 
 ```bash
 npm ci

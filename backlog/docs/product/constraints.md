@@ -5,9 +5,9 @@
 - The frontend is a TypeScript HTML5 React SPA/PWA using shadcn.
 - The backend is Java using Quarkus or Spring Boot; the framework must be selected through task refinement.
 - The repository is a monorepo. Microservices are a possible future evolution, not a current constraint.
-- Work is managed through GitHub Issues and GitHub Projects.
+- Work is managed through Backlog.md.
 - The operating pipeline has four actors: Human, Analyst, Coder, and Reviewer.
-- Implementation requires a prepared Issue manually approved by the Human through Project Status `Ready`; a separate SPEC is optional.
+- Implementation requires a prepared TASK manually approved by the Human through status `Ready`; a separate SPEC is optional.
 - One task is implemented at a time on a dedicated branch or worktree.
 - A separate agent performs the final increment review.
 - Human controls task status transitions after Analyst preparation, Coder implementation, and Reviewer feedback.
