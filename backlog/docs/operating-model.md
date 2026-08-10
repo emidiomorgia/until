@@ -2,6 +2,20 @@
 
 This repository uses a four-actor, task-driven workflow managed through Backlog.md. Backlog.md provides the planning model: tasks, milestones, and task statuses. The workflow does not use sprints or iterations. A separate SPEC document is optional; the prepared task is the operative specification.
 
+## Common Definition of Done
+
+Backlog.md does not provide a repository-wide Definition of Done in this project's configuration. The following common Definition of Done therefore applies procedurally to every task and is not repeated in individual task checklists:
+
+- The work remains within the approved task scope, dependencies are resolved, and unrelated changes are excluded.
+- The implementation or documentation is reviewed against the task, its acceptance criteria, relevant decisions, and applicable project constraints.
+- Applicable automated checks, focused tests, and required manual or browser verification are executed and pass; unavailable checks are recorded as limitations.
+- A final diff and the task-scoped modified-file list are inspected, and affected documentation or configuration is updated.
+- The task records objective evidence, decisions, warnings, limitations, and the exact shell commands executed.
+- The Backlog `Final Summary` is structured English Markdown with `Summary`, `Modified files`, `Shell commands executed`, `Verification`, and `Decisions and limitations` sections.
+- For implementation tasks, the dedicated branch is committed and pushed before the Coder hands the task to `In Review`; the Human controls final review, `Done`, and merge.
+
+Task-specific `Definition of Done` items must contain only additional checks, outcomes, or evidence unique to that task. Do not repeat these common requirements in every task. During review, the common Definition of Done is always applied even when it is absent from the task's own checklist.
+
 ## Actors
 
 ### Human
@@ -22,7 +36,7 @@ The Analyst refines a Human-authored task after being explicitly invited.
 
 - Reads the relevant product, architecture, quality, optional SPEC, and task context.
 - Identifies ambiguities, missing dependencies, risks, and scope boundaries.
-- Adds or updates `Acceptance Criteria`, `Definition of Done`, and `Implementation Plan` through the Backlog.md workflow.
+- Adds or updates `Acceptance Criteria`, task-specific `Definition of Done`, and `Implementation Plan` through the Backlog.md workflow. The common Definition of Done is implicit and must not be copied into the task.
 - Reports the analysis to the Human.
 - Does not modify the task title or description, implement code, approve implementation readiness, or move the task to `Ready`.
 - Interviews the Human whenever business intent, scope, behavior, edge cases, or constraints are missing; records each refinement of the questions and answers in one cumulative analysis comment on the task.

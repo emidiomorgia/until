@@ -1,4 +1,5 @@
 import './App.css'
+import { Link } from 'react-router-dom'
 
 type Deadline = {
   name: string
@@ -29,7 +30,10 @@ function LandingPage() {
           <p className="eyebrow">A place for what comes next</p>
           <h1 id="hero-title">Make time<br /><em>count.</em></h1>
           <p className="abstract">until turns the space between now and a deadline into something you can see, understand, and make progress through.</p>
-          <a className="primary-button" href="#preview">Explore until <span aria-hidden="true">↗</span></a>
+          <div className="hero-actions">
+            <a className="primary-button" href="#preview">Explore until <span aria-hidden="true">↗</span></a>
+            <Link className="secondary-button" to="/app">Open app <span aria-hidden="true">↗</span></Link>
+          </div>
         </div>
         <div className="hero-orbit" aria-hidden="true">
           <div className="orbit orbit-one" />

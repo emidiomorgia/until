@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LandingPage from './LandingPage'
 import AppShell from './AppShell'
+import InstallPrompt from './components/InstallPrompt'
 
 export function AppRoutes() {
   return (
@@ -15,6 +16,7 @@ export function AppRoutes() {
 export function AppRouter() {
   return (
     <BrowserRouter>
+      <InstallPrompt />
       <AppRoutes />
     </BrowserRouter>
   )

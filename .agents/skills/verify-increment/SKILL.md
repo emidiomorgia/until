@@ -23,8 +23,9 @@ If the task, evidence, or review baseline is missing, stop and report the missin
 2. Inspect the diff for correctness, scope violations, regressions, security or quality risks, and undocumented behavior.
 3. Run all applicable automated tests, lint, static analysis, formatting, and project-specific verification commands.
 4. Check that affected documentation and Backlog completion evidence are current.
-5. Report every divergence with severity, evidence, and the requirement it violates.
-6. Append the review result as a comment to the Backlog task, ordered by severity, and report the same text to the Human.
+5. Verify the common Definition of Done in `backlog/docs/operating-model.md` in addition to the task-specific DoD items. Do not require common items to be duplicated in the task checklist.
+6. Report every divergence with severity, evidence, and the requirement it violates.
+7. Append the review result as a comment to the Backlog task, ordered by severity, and report the same text to the Human.
 
 ## Boundaries
 
