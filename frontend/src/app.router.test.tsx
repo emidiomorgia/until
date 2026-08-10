@@ -15,6 +15,8 @@ describe('application routes', () => {
   it('renders the landing page at the root path', () => {
     renderAt('/')
     expect(screen.getByRole('heading', { name: /make time/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /open app/i })).toHaveAttribute('href', '/app')
+    expect(screen.getByRole('link', { name: /explore until/i })).toBeInTheDocument()
   })
 
   it('renders the static application shell at /app', () => {
