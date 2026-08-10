@@ -1,0 +1,80 @@
+name: Deploy static website image
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_NAME: emidiomorgia/until
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out tagged commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate release tag and branch
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          TAGGED_COMMIT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$RELEASE_TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Tag '$RELEASE_TAG' is not an x.y.z release tag. Publishing is disabled."
+            exit 1
+          fi
+
+          release_branch="${RELEASE_TAG%.*}.x"
+          git fetch --no-tags origin "refs/heads/${release_branch}:refs/remotes/origin/${release_branch}"
+
+          if ! git merge-base --is-ancestor "$TAGGED_COMMIT" "origin/${release_branch}"; then
+            echo "Tagged commit $TAGGED_COMMIT is not contained in release branch ${release_branch}."
+            exit 1
+          fi
+
+          echo "Validated ${RELEASE_TAG} against release branch ${release_branch}."
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Verify frontend
+        working-directory: frontend
+        run: |
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run build
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push release image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ github.ref_name }}
