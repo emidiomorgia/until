@@ -4,7 +4,7 @@ title: Create Github Action for deploy static website
 status: In Review
 assignee: []
 created_date: '2026-08-10 08:49'
-updated_date: '2026-08-10 09:12'
+updated_date: '2026-08-10 09:20'
 labels: []
 milestone: m-0
 dependencies: []
@@ -102,6 +102,65 @@ Decisions and assumptions:
 Remaining assumptions for Human review:
 - The Docker Hub repository name and secret names are conventional assumptions based on the repository identity and can be changed before implementation.
 - The workflow must validate branch membership because a tag push event identifies the tagged commit but does not itself provide a trusted source-branch field.
+---
+
+author: Reviewer
+created: 2026-08-10 09:17
+---
+Review report — TASK-4
+
+Findings (ordered by severity)
+
+1. Medium — AC #5 and DoD #5 remain unverified for the resulting container.
+Requirement: The resulting image must serve the current frontend landing page through the Node.js runtime on the documented container port, and a local Docker build/run smoke test should pass where Docker is available.
+Evidence: The Dockerfile declares port 4173 and a Node.js `serve` command (`frontend/Dockerfile:11-22`), but the Docker Desktop Linux daemon was unavailable in this environment, so no image build, container start, HTTP request, or landing-page assertion could be performed. The task's implementation notes record the same limitation.
+Impact: The runtime command, image contents, port binding, and actual landing-page response are not independently demonstrated; this is a verification gap rather than a confirmed implementation defect.
+
+2. Low — Workflow syntax/static validation is not independently evidenced.
+Requirement: DoD #5 calls for workflow syntax/static validation, or an explicit record that the validation is unavailable.
+Evidence: `actionlint` and `yamllint` are unavailable in the environment, as recorded in the task. Manual inspection found the tag trigger, exact numeric tag guard, derived release-branch ancestry check, secret references, and publish step ordering consistent with AC #2–#4.
+Impact: YAML/action-schema errors that only a GitHub Actions parser would detect remain untested locally, although no syntax or scope issue was identified by inspection.
+
+No other findings were identified. The increment is limited to `frontend/Dockerfile`, `frontend/.dockerignore`, and `.github/workflows/deploy-static-website.yml`; it introduces no application, backend, Render, SSL, routing-fallback, service-worker, or offline behavior changes.
+
+Verification performed
+- Read the complete prepared task, AGENTS.md, operating model, project technology guidance, product vision/constraints, architecture, and quality-attributes documentation.
+- Reviewed commit `d022de3` against its parent and confirmed a clean working tree.
+- `npm run lint` — passed.
+- `npm run typecheck` — passed.
+- `npm test` — passed: 1 test file, 2 tests.
+- `git diff --check d022de3^ d022de3` — passed.
+- Reviewed workflow control flow and Dockerfile contents manually; Docker build/run and dedicated workflow linters were unavailable as noted above.
+
+Task status remains controlled by the Human.
+---
+
+author: Reviewer
+created: 2026-08-10 09:20
+---
+Review update — TASK-4
+
+Findings (ordered by severity)
+
+1. Low — Workflow syntax/static validation is not independently evidenced.
+Requirement: DoD #5 calls for workflow syntax/static validation, or an explicit record that the validation is unavailable.
+Evidence: `actionlint` and `yamllint` are unavailable in the environment, as recorded in the task. Manual inspection found the tag trigger, exact numeric tag guard, derived release-branch ancestry check, secret references, and publish step ordering consistent with AC #2–#4.
+Impact: YAML/action-schema errors that only a GitHub Actions parser would detect remain untested locally, although no syntax or scope issue was identified by inspection.
+
+No other findings were identified. The Docker verification gap from the prior review is resolved: the image built successfully, a temporary container started, and an HTTP request to the host port mapped to container port 4173 returned status 200 with the landing-page root markup and title. Temporary Docker artifacts were removed.
+
+Verification performed
+- Read the complete prepared task, AGENTS.md, operating model, project technology guidance, product vision/constraints, architecture, and quality-attributes documentation.
+- Reviewed commit `d022de3` against its parent and confirmed a clean working tree.
+- `npm run lint` — passed.
+- `npm run typecheck` — passed.
+- `npm test` — passed: 1 test file, 2 tests.
+- `git diff --check d022de3^ d022de3` — passed.
+- Docker build from `frontend/` — passed.
+- Docker runtime smoke test — passed: HTTP 200 on port 4173 with landing-page markup/title present.
+- Workflow control flow and Dockerfile contents manually reviewed; dedicated workflow linters remain unavailable.
+
+Task status remains controlled by the Human.
 ---
 <!-- COMMENTS:END -->
 
