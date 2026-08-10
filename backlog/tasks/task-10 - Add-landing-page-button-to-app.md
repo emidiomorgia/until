@@ -1,17 +1,17 @@
 ---
 id: TASK-10
 title: Add landing page app button and PWA installation prompt
-status: In Review
+status: Done
 assignee:
   - '@Emidio Morgia'
 created_date: '2026-08-10 21:32'
-updated_date: '2026-08-10 21:57'
+updated_date: '2026-08-10 22:13'
 labels: []
 milestone: m-0
 dependencies: []
 priority: high
 type: feature
-ordinal: 1000
+ordinal: 10000
 ---
 
 ## Description

@@ -1,5 +1,6 @@
 export const pwaManifest = {
   name: 'until',
+  start_url: '/app',
   display: 'standalone',
   icons: [
     { src: '/assets/icon-192.png', sizes: '192x192' },
