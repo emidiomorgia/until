@@ -1,14 +1,12 @@
 ---
 id: TASK-9
 title: Serve the production React SPA with Nginx
-status: To Do
+status: Ready
 assignee: []
 created_date: '2026-08-10 20:59'
-updated_date: '2026-08-10 21:03'
+updated_date: '2026-08-10 21:10'
 labels:
-  - frontend
-  - docker
-  - deployment
+  - Sprint1
 milestone: m-0
 dependencies: []
 references:
@@ -19,7 +17,7 @@ modified_files:
   - frontend/nginx.conf
 priority: high
 type: enhancement
-ordinal: 9000
+ordinal: 1000
 ---
 
 ## Description
