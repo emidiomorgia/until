@@ -6,7 +6,7 @@
 
 ## Target direction
 
-Architecture decisions will be introduced incrementally through prepared Backlog tasks and ADRs when significant. An optional SPEC may provide additional context. Each increment should keep the React presentation, backend API, deadline domain, integrations, and persistence separable enough to test independently where the selected design requires it. The monorepo should leave room for future microservices without prematurely splitting the current system.
+Architecture decisions will be introduced incrementally through prepared GitHub Issues and ADRs when significant. An optional SPEC may provide additional context. Each increment should keep the React presentation, backend API, deadline domain, integrations, and persistence separable enough to test independently where the selected design requires it. The monorepo should leave room for future microservices without prematurely splitting the current system.
 
 ## Current component responsibilities
 

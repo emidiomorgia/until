@@ -11,7 +11,7 @@
 - Offer an installable PWA experience where it improves access to deadline information.
 - Keep frontend, Java backend, and shared contracts coherent within the monorepo.
 - Leave room for future microservices without requiring them during the foundation phase.
-- Evolve the product incrementally through prepared, Human-approved Backlog.md tasks.
+- Evolve the product incrementally through prepared, Human-approved GitHub Issues.
 
 ## Current maturity
 

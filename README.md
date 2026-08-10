@@ -142,7 +142,7 @@ Contributions, documentation improvements, bug reports, and product feedback are
 4. Update the README or changelog when behavior or setup changes.
 5. Open a pull request with a clear summary, testing notes, and screenshots for UI changes.
 
-For larger changes, open an issue first so the approach can be discussed before implementation. Please keep pull requests focused and follow the project's existing style. By participating, you agree to collaborate respectfully and to license your contributions under the project's MIT license.
+For larger changes, open an issue first so the approach can be discussed before implementation. Structured implementation work should use the [task issue template](.github/ISSUE_TEMPLATE/task.md) and follow the [GitHub Issues workflow](docs/github-issues-workflow.md). Please keep pull requests focused and follow the project's existing style. By participating, you agree to collaborate respectfully and to license your contributions under the project's MIT license.
 
 ## Changelog
 

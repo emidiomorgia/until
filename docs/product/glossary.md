@@ -9,7 +9,7 @@
 | Monorepo | One repository containing the frontend, backend, shared contracts, and supporting tooling. |
 | Microservice | An independently deployable service that may be introduced later when a prepared task justifies the operational and domain boundary. |
 | SPEC | An optional, testable description of behavior, constraints, and scope for a change. The prepared TASK is authoritative when no separate SPEC exists. |
-| TASK | A Backlog.md work item whose preparation fields define the implementation scope and verification expectations. |
+| TASK | A GitHub Issue whose structured body defines the implementation scope and verification expectations. |
 | Human | The project owner who creates and describes tasks, controls approval gates and statuses, verifies work, and decides whether to merge. |
 | Analyst | The actor invited by the Human to refine a `To Do` task by filling its preparation fields. |
 | Coder | The actor invited by the Human to implement a task after it reaches `Ready`. |
