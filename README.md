@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/badge/UI-shadcn%2Fui-black" alt="shadcn/ui" />
     <a href="https://github.com/emidiomorgia/until/actions/workflows/ci.yml"><img src="https://github.com/emidiomorgia/until/actions/workflows/ci.yml/badge.svg" alt="CI: Frontend quality gate" /></a>
     <a href="https://github.com/emidiomorgia/until/actions/workflows/cd.yml"><img src="https://github.com/emidiomorgia/until/actions/workflows/cd.yml/badge.svg" alt="CD: Publish frontend image" /></a>
-    <a href="https://hub.docker.com/r/emidio78/until-frontend/tags"><img src="https://img.shields.io/docker/v/emidio78/until-frontend?sort=semver&label=deployed" alt="Latest deployed frontend version" /></a>
+    <a href="https://hub.docker.com/r/emidio78/until-frontend/tags"><img src="https://img.shields.io/docker/v/emidio78/until-frontend?sort=semver&label=deployed&cacheSeconds=60" alt="Latest deployed frontend version" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license" /></a>
   </p>
 
