@@ -1,7 +1,7 @@
 ---
 id: TASK-10
 title: Add landing page app button and PWA installation prompt
-status: In Progress
+status: In Review
 assignee:
   - '@Emidio Morgia'
 created_date: '2026-08-10 21:32'
@@ -60,6 +60,8 @@ Risks: browser installability criteria and prompt availability vary by platform 
 Implementation started on branch task-10-pwa-installation. Scope confirmed: landing-page Open app navigation plus standards-based PWA install metadata/runtime, Chrome beforeinstallprompt handling, Safari platform guidance, standalone suppression, focused tests, and browser/production verification. No installer dependency or offline caching planned.
 
 Validation evidence (2026-08-10): standards-based implementation retained; no installer dependency added. Browser verification on Chrome/local production-equivalent frontend confirmed /app navigation, manifest link, responsive widths 375, 768, and 1440 with document scrollWidth equal to viewport width, accessible sidebar control, and keyboard Enter opening the sidebar. Production preview HTTP checks returned 200 for /, /app, /manifest.webmanifest (application/manifest+json), /sw.js (text/javascript), /assets/icon-192.png, and /assets/icon-512.png. Focused tests cover the beforeinstallprompt user-gesture call, Safari fallback guidance and dismissal, standalone suppression, branded manifest metadata, and Open app preservation. npm run lint, npm run typecheck, npm test (4 files/9 tests), npm run build, and git diff --check passed before the dependency directory became locked. npm ci was attempted twice and npm install twice; Windows EPERM/EBUSY locks on native Rolldown/Tailwind binaries prevented dependency recreation after the final small accessible fallback-details change. Safari/macOS/iPhone and separate Windows/Linux/macOS/Android browser sessions were unavailable in the connected browser; this limitation is recorded rather than claimed as verified.
+
+Handoff evidence (2026-08-10): commit 798dd60 (feat(task-10): add PWA installation flow) was created on task-10-pwa-installation and pushed successfully to origin/task-10-pwa-installation. The earlier final-summary limitation line saying the branch was awaiting commit/push is superseded by this evidence. Task is ready for Human verification and independent review; no merge was performed.
 <!-- SECTION:NOTES:END -->
 
 ## Comments
@@ -204,4 +206,6 @@ Sources consulted:
 - sw.js only handles install/activate and intentionally provides no fetch handler or cache, so offline deadline data is not promised.
 - npm ci/npm install could not recreate node_modules after Windows locked native binaries; the required checks had already passed before that environment failure, but no claims are made for checks attempted afterward.
 - No merge was performed; the dedicated branch is awaiting commit/push and Human review.
+
+Handoff evidence (2026-08-10): commit 798dd60 (feat(task-10): add PWA installation flow) was created on task-10-pwa-installation and pushed successfully to origin/task-10-pwa-installation. The earlier final-summary limitation line saying the branch was awaiting commit/push is superseded by this evidence. Task is ready for Human verification and independent review; no merge was performed.
 <!-- SECTION:FINAL_SUMMARY:END -->
