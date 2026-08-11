@@ -63,6 +63,10 @@ At a high level, the system will consist of:
 | --- | --- | --- | --- | --- | --- |
 | Frontend | [until.morgia.info](https://until.morgia.info) | [CI workflow](https://github.com/emidiomorgia/until/actions/workflows/ci.yml) | [CD workflow](https://github.com/emidiomorgia/until/actions/workflows/cd.yml) | [Docker Hub semver tags](https://hub.docker.com/r/emidio78/until-frontend/tags) | React and TypeScript SPA landing page served from the published frontend image. |
 
+### Render deployment
+
+The production frontend is a Render Static Site configured by the root [`render.yaml`](render.yaml) Blueprint. When the Render service already exists, associating the repository or deploying a branch is not enough to apply Blueprint settings: the Blueprint must also be associated/synchronized with the existing service from the Render console. This applies the SPA rewrite (`/*` to `/index.html`) required for direct navigation to client-side routes such as `/app`.
+
 The first release deliberately avoids prematurely committing to authentication, a backend, or third-party calendar synchronization. Those decisions will be made after the core workflow has been validated.
 
 ## Installation
