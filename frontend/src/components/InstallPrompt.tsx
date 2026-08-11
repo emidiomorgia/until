@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { registerServiceWorker } from '@/pwa'
 
@@ -23,6 +24,7 @@ function isChromium() {
 }
 
 export default function InstallPrompt() {
+  const { pathname } = useLocation()
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [dismissed, setDismissed] = useState(false)
   const [standalone, setStandalone] = useState(isStandalone)
@@ -52,7 +54,7 @@ export default function InstallPrompt() {
     }
   }, [])
 
-  if (standalone || dismissed) return null
+  if (pathname !== '/app' || standalone || dismissed) return null
 
   const fallback = !deferredPrompt && !isChromium()
   if (!deferredPrompt && !fallback) return null
