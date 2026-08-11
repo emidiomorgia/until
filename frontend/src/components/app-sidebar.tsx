@@ -13,7 +13,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
-import { XIcon } from 'lucide-react'
+import { TimerIcon, XIcon } from 'lucide-react'
 
 function MobileSidebarClose() {
   const { setOpenMobile } = useSidebar()
@@ -53,11 +53,14 @@ export default function AppSidebar() {
       <SidebarSeparator />
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="px-2 text-[11px] uppercase tracking-[0.16em]">Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel className="px-2 text-[11px] uppercase tracking-[0.16em]">Timers</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton type="button">List</SidebarMenuButton>
+                <SidebarMenuButton type="button">
+                  <TimerIcon />
+                  <span>Timers</span>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

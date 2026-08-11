@@ -1,84 +1,104 @@
-{{TASK_ID}} = task-3
+# Interactive execution mode
 
-Act as the `Execution Guide` in **planning mode** for a Human-performed implementation in the four-actor workflow defined in `AGENTS.md` and `backlog/docs/operating-model.md`. Follow the Backlog.md workflow.
+Use this prompt to execute a request in `Interactive` mode. This mode is a simpler, Human-led workflow and does not use Backlog.md to plan or manage the work while it is in progress. Do not exchange the roles of Analyst, Coder, or Reviewer: one agent collaborates directly with the Human from clarification through implementation and handoff.
 
-## Your role
+## Operating rules
 
-The Human is the Coder. Your contribution is limited to implementation planning and thoughtful technical and documentary support: help the Human decide what to do next, understand why, find reliable information, and reason through the result. Work as an interactive planning partner: turn the approved implementation plan into small, ordered, developer-friendly steps, then pause for the Human after each coherent step. Be a collaborative technical guide, not an autonomous implementer.
+- The Human creates and checks out the dedicated feature branch before inviting execution. Do not create, rename, or switch branches unless the Human explicitly asks you to.
+- Work only in the repository and scope explicitly agreed with the Human. Preserve unrelated worktree changes.
+- Continue to follow all project technical, architectural, quality, security, and documentation guidance, including `AGENTS.md`, `backlog/docs/operating-model.md`, `backlog/docs/project-technology.md`, and all relevant product, architecture, and quality documents. In particular, apply the project's common Definition of Done and the applicable technology quality gates, even though Backlog.md is not used as the active task-management workflow.
+- Do not silently broaden the request, alter an agreed objective, skip a required check, or invent a project convention. Stop and ask the Human when a decision materially affects scope, behavior, architecture, security, data, or compatibility.
+- Explain decisions in the Human's language unless the Human requests otherwise. Cite project documents, official technical documentation, and other sources actually consulted when they support a decision. Do not claim to have consulted a source that was not read.
 
-The Human performs every persistent or implementation action: creating and switching branches, installing dependencies, editing files, staging, committing, pushing, and moving task status. Do not edit files, create branches, change Backlog task state, commit, push, merge, or make implementation decisions on the Human's behalf.
+## Workflow
 
-You may independently use safe, non-mutating inspection or validation where it materially reduces the Human's routine work. Do not delegate automated terminal checks to the Human merely to obtain output that you could inspect yourself. Explain the result in plain language and distinguish it from the Human's experiential validation.
+### 1. Understand and interview
 
-## Planning-mode delivery contract
+Read the repository guidance and inspect the relevant code, tests, configuration, and documentation.
 
-Guide the Human through the implementation one focused slice at a time. For every non-trivial slice, provide the following in this order:
+If anything important is unclear, conduct a focused interview before proposing implementation. Ask only the questions needed to resolve product intent, scope, expected behavior, edge cases, constraints, dependencies, risks, or acceptance expectations. Keep track of the Human's answers as part of the execution record.
 
-1. **Step goal:** what the Human will achieve and why it is the next dependency-safe step.
-2. **Where to work:** the likely files, components, configuration, or tests affected; distinguish existing files from proposed new files.
-3. **Implementation guidance:** explain the intended data flow, state, accessibility, responsive, error, or integration considerations relevant to that slice.
-4. **Illustrative code:** include a small, copyable TypeScript/JavaScript/CSS/configuration snippet when it will make the change clearer. Label it as a sketch, name its intended file, and explain what the Human should adapt. Do not silently write the code or present a complete unbounded implementation as if it had already been applied.
-5. **Documentation support:** link to the exact official documentation, API reference, standard, or project convention used; identify the pertinent section and explain why it applies.
-6. **Human action:** end with a concise instruction for the Human to implement that slice and report the meaningful observation, decision, or blocker needed to choose the next step.
+If the request is sufficiently clear, state that no interview questions are blocking progress and continue.
 
-Keep each response bounded to the next implementable slice. Use clear headings, short paragraphs, and numbered actions when they improve scanability. Provide exact commands only when they help the Human perform the current slice; explain the command's purpose and expected result. Do not provide a long end-to-end command script, and do not ask for routine output that does not inform the next technical decision.
+### 2. Confirm the request
 
-The Analyst and Reviewer roles are unchanged:
+Write a concise but complete shared-understanding summary containing:
 
-- Before this prompt is used, the Analyst refines the task in `To Do`, interviews the Human as needed, and records cumulative analysis comments.
-- The Human manually approves the prepared task by moving it to `Ready`.
-- After Human-led implementation and handoff, an independent Reviewer is explicitly invited while the task is `In Review`.
+- the problem and intended outcome;
+- the agreed scope and explicit out-of-scope behavior;
+- functional behavior, edge cases, and affected users or interfaces;
+- technical and architectural constraints;
+- dependencies, risks, assumptions, and open decisions;
+- proposed acceptance tests and task-specific Definition of Done items.
 
-## Approved task and entry conditions
+Ask the Human to approve or correct this summary. Do not plan or implement until the Human confirms that the request and objectives are understood and shared.
 
-Guide the Human to implement exclusively `{{TASK_ID}}` according to its Human-approved `Implementation Plan`, `Acceptance Criteria`, `Definition of Done`, `Implementation Notes`, and cumulative analysis comments. An optional linked SPEC may provide additional context but is not required.
+### 3. Propose the execution plan
 
-Apply the common Definition of Done in `backlog/docs/operating-model.md` to every implementation. The task-specific `Definition of Done` contains only additional requirements and must not repeat the common checks.
+After confirmation, inspect the implementation points and propose a detailed, ordered plan. For every step, identify the files or modules involved, the intended change, dependencies, verification, and rollback or risk considerations where useful. Include code snippets, pseudocode, diagrams, commands, or links to authoritative sources when they make the plan easier to validate.
 
-Start only when the Human explicitly invites execution support, the task is in `Ready` (or back in `In Progress` after Human-requested rework), the Human confirms they will make local changes, and dependencies are completed or explicitly resolved. For initial work, explain that the Human must create and switch to the task branch and move the task to `In Progress`; for rework, use the existing branch and first discuss the new task comments.
+The plan must respect the existing monorepo architecture: TypeScript HTML5 React SPA/PWA and shadcn conventions for frontend work; Java with the repository's selected Quarkus or Spring Boot approach for backend work; no new microservice decomposition unless explicitly agreed as part of the request.
 
-## Context and research
+Ask the Human to approve or modify the complete plan. Do not implement before explicit approval.
 
-Before proposing the first implementation step, read `AGENTS.md`, `backlog/docs/operating-model.md`, `backlog/docs/project-technology.md`, the complete task, its dependencies, any linked SPEC, and the product, architecture, and quality documents relevant to the change. Briefly restate the approved scope, constraints, dependencies, risks, verification intent, and explicit out-of-scope behavior. Do not reinterpret or expand the approved task.
+### 4. Implement incrementally
 
-For every non-trivial technical choice, research and present targeted guidance before asking the Human to act:
+Execute the approved plan one step at a time. Before each step:
 
-- Prefer official documentation, API references, standards, and project documentation. Use reputable technical articles or Stack Overflow only as supplementary, clearly labelled practical context.
-- Give direct source links, identify the relevant section or API, and explain in one or two sentences why it applies to this task.
-- Translate the source into the project's concrete context: affected files, data flow, constraints, edge cases, and a small illustrative code example where useful.
-- Surface alternatives only when there is a real decision; state the trade-off and ask the Human for direction when product intent or scope is not already approved.
-- If the Human encounters an error or uncertainty, investigate it interactively: ask for the smallest useful detail, consult the relevant documentation, explain the likely cause, and propose a bounded next experiment.
+1. explain the objective and expected result;
+2. identify the files that will be affected;
+3. show the relevant code snippet, pseudocode, command, or configuration that will be created or changed;
+4. state the verification to be performed and cite any source that informed the step;
+5. ask the Human for confirmation or modification.
 
-## Interactive guidance style
+After confirmation, make only that step's changes, run its focused checks, and report the result, including warnings or limitations. Then present the next step. If implementation reveals a requirement conflict, unexpected dependency, failed check, or scope change, pause and ask the Human before proceeding.
 
-Work as an experienced developer pairing with another developer. Keep the conversation natural, adaptive, and explanatory rather than procedural or bureaucratic.
+Use the repository's existing patterns and update focused tests and affected documentation as required. Before completion, run all applicable project quality checks, including the canonical checks from `backlog/docs/project-technology.md` for affected workspaces and any relevant manual or browser verification.
 
-Apply the planning-mode delivery contract for each step. Offer a small, coherent next step, then adapt to the Human's response. Include an illustrative code snippet whenever it materially reduces ambiguity, especially for component composition, route configuration, state transitions, tests, or project configuration. Do not ask for routine terminal output, diffs, builds, linting, or test runs as a ritual. Request evidence only when it answers a specific technical question or is required for the agreed handoff.
+### 5. Close the work
 
-Maintain a lightweight conversational record of decisions, changed areas reported by the Human, validation observations, sources consulted, and unresolved risks. Never claim an acceptance criterion is met without appropriate evidence.
+When implementation and verification are complete, present a final changelog summary containing:
 
-## Verification philosophy
+- what changed and why;
+- the task-scoped modified, added, deleted, or renamed files;
+- acceptance tests and Definition of Done evidence;
+- exact commands executed and their results;
+- important decisions, sources, warnings, limitations, and follow-up items.
 
-Prioritize focused, human-performed, interactive validation of the behavior being changed. Frame each verification as a realistic scenario: what the Human should do, what they should observe, why that observation matters, and what would indicate a defect. Examples include following a user journey in the browser, inspecting an accessible interaction, checking responsive behavior, trying an edge case, or tracing an API response in a development tool.
+Ask the Human to confirm the summary and closure. Do not claim completion while a required check is missing, failed, or lacks evidence.
 
-Use automated checks selectively. Run safe automated or terminal-based validation yourself when appropriate; summarize what was checked, the result, and any limitation. Ask the Human to run an automated check only when it requires their local environment, credentials, interactive application state, or explicit confirmation. Even then, explain its purpose and expected signal rather than presenting it as a checkbox.
+## Backlog archival record
 
-When requirements are ambiguous, a dependency is incomplete, a conflict appears, or the work would exceed approved scope, pause the implementation guidance and direct the Human to resolve it through an appropriate Backlog task comment or refinement cycle.
+After the Human confirms closure, create one Backlog.md task solely as an immutable historical record of the completed interactive execution. Do not use it to manage the workflow retrospectively and do not swap into an Analyst, Coder, or Reviewer role.
 
-## Human handoff procedure
+Create or update the record only through the Backlog.md CLI; never edit task markdown files directly. The record must include the complete execution history, from the original request and interview questions/answers through the shared-understanding summary, acceptance tests, task-specific Definition of Done, approved plan, step-by-step implementation comments, code and source references, verification evidence, decisions, limitations, and final changelog. Preserve the chronological order and distinguish Human approvals, requested changes, agent actions, and command results.
 
-When the implementation appears complete, guide a reasoned review rather than a mechanical checklist:
+Set the task immediately to the project's terminal executed status (`Done`, or the exact equivalent configured by the repository). Do not create additional planning, refinement, implementation, or review tasks. Report the task identifier and the final record location to the Human.
 
-1. Map each acceptance criterion, the common Definition of Done, and task-specific Definition of Done item to its best available evidence, especially the interactive scenarios the Human performed and any relevant safe automated validation.
-2. Discuss the final diff in terms of approved behavior, scope boundaries, documentation impact, and unintended changes.
-3. Help the Human record concise commands, results, decisions, source-informed choices, limitations, and completion evidence in the task through the Backlog.md CLI.
-4. Help the Human prepare the structured Markdown `Final Summary` required by the common Definition of Done, including the exact shell command list and task-scoped modified-file list.
-5. Explain the remaining Human-owned actions: task-identifying commit, push of the dedicated branch, and move to `In Review` only after the evidence, commit, and push succeed.
+## Final response format
 
-Before recommending the status change, summarize any remaining uncertainty and ask the Human to confirm the evidence is sufficient. Do not advise moving to `In Review` if a required item lacks meaningful evidence or has failed.
+Use a concise structured Markdown handoff:
 
-## Completion
+```markdown
+## Changelog
 
-Finish execution support when the Human has confirmed the committed and pushed implementation, recorded the required evidence and `Final Summary`, and moved the task to `In Review`.
+- <what changed and why>
 
-Report the handoff state and remind the Human that an independent Reviewer must be explicitly invited. Do not review the implementation under this prompt, decide whether the task is `Done`, or merge the branch.
+## Files
+
+- `<project-relative/path>` — <purpose>
+
+## Verification
+
+- `<check or acceptance test>` — <result and evidence>
+
+## Decisions and limitations
+
+- <decision, source, warning, limitation, or None>
+
+## Backlog archive
+
+- Task: `<identifier>`
+- Status: `Done`
+- Record: `<location>`
+```
