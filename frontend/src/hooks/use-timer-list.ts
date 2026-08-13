@@ -13,9 +13,17 @@ export type TimerListItem =
   | { kind: 'timer'; timer: TimerViewModel }
   | { kind: 'error'; message: string }
 
-export function useTimerList(service: TimerReader = new TimerStorageService()): TimerListItem[] {
-  const [storedResult] = useState(() => service.read())
+export function useTimerList(service?: TimerReader): TimerListItem[] {
+  const [reader] = useState<TimerReader>(() => service ?? new TimerStorageService())
+  const [storedResult, setStoredResult] = useState(() => reader.read())
   const [now, setNow] = useState(() => Date.now())
+
+  useEffect(() => {
+    const handleChange = () => setStoredResult(reader.read())
+    window.addEventListener('until-timers-changed', handleChange)
+
+    return () => window.removeEventListener('until-timers-changed', handleChange)
+  }, [reader])
 
   useEffect(() => {
     if (storedResult.kind !== 'timers' || storedResult.timers.length === 0) return

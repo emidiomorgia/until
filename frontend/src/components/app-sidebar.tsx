@@ -13,7 +13,9 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
-import { TimerIcon, XIcon } from 'lucide-react'
+import { ListIcon, XIcon } from 'lucide-react'
+
+const appVersion = import.meta.env.VITE_APP_VERSION || 'dev'
 
 function MobileSidebarClose() {
   const { setOpenMobile } = useSidebar()
@@ -45,7 +47,7 @@ export default function AppSidebar() {
           />
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">Until</p>
-            <p className="truncate text-xs text-sidebar-foreground/60">Application shell</p>
+            <p className="truncate text-xs text-sidebar-foreground/60">Make time count.</p>
           </div>
         </div>
         <MobileSidebarClose />
@@ -58,8 +60,8 @@ export default function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton type="button">
-                  <TimerIcon />
-                  <span>Timers</span>
+                  <ListIcon />
+                  <span>Timer list</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -67,7 +69,7 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-4">
-        <p className="text-xs text-sidebar-foreground/60">Static preview · 0.1</p>
+        <p className="text-xs text-sidebar-foreground/60">Version {appVersion}</p>
       </SidebarFooter>
     </Sidebar>
   )

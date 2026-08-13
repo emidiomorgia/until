@@ -1,14 +1,20 @@
 import { useState } from 'react'
-import { ChevronDown, CircleAlert, PlusIcon } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { CircleAlert, EllipsisIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTimerList, type TimerListItem, type TimerViewModel } from '@/hooks/use-timer-list'
 import { buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { TimerStorageService } from '@/services/timer-storage.service'
 import emptyTimersImage from '@/assets/hero.png'
 
-const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-  dateStyle: 'medium',
-  timeStyle: 'short',
-})
+const dateFormatterOptions: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+}
 
 export default function TimerList() {
   const items = useTimerList()
@@ -55,45 +61,128 @@ function TimerListItemView({ item }: { item: TimerListItem }) {
 }
 
 function TimerCard({ timer }: { timer: TimerViewModel }) {
-  const [expanded, setExpanded] = useState(false)
-  const panelId = `timer-panel-${timer.id}`
+  const navigate = useNavigate()
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  const [error, setError] = useState<string>()
+
+  function deleteTimer() {
+    const result = new TimerStorageService().remove(timer.id)
+    if (result.kind === 'error') {
+      setError(result.message)
+      return
+    }
+    setConfirmDelete(false)
+  }
 
   return (
-    <article className="overflow-hidden rounded-xl border bg-card shadow-sm">
-      <button
-        aria-controls={panelId}
-        aria-expanded={expanded}
-        className="grid w-full gap-4 p-4 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset md:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))_auto] md:items-center"
-        onClick={() => setExpanded((value) => !value)}
-        type="button"
+    <article className="relative overflow-hidden rounded-xl border bg-card shadow-sm">
+      <div
+        className="grid w-full gap-2 p-4 pr-4 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset md:pr-14 lg:grid-cols-[minmax(10rem,14rem)_9rem_minmax(10rem,1fr)_14rem_14rem_auto] lg:items-center"
       >
-        <span className="min-w-0">
-          <span className="block truncate font-medium">{timer.title}</span>
-          <span className="mt-1 block text-xs text-muted-foreground">{formatStatus(timer)}</span>
-        </span>
-        <Stat label="Start" value={formatDate(timer.startDate)} />
-        <Stat label="End" value={formatDate(timer.endDate)} />
-        <Stat label="Elapsed" value={`${formatProgress(timer.progress)}%`} />
-        <span className="flex items-center justify-between gap-3 text-sm font-medium md:block md:text-right">
-          <span>{formatRemaining(timer.remainingMilliseconds)}</span>
-          <ChevronDown aria-hidden="true" className={`size-5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
-        </span>
-      </button>
-      {expanded && (
-        <div className="border-t bg-muted/20 px-4 py-4" id={panelId}>
-          <div className="grid gap-4 text-sm sm:grid-cols-2">
-            <Stat label="Start date" value={formatDate(timer.startDate)} />
-            <Stat label="End date" value={formatDate(timer.endDate)} />
-            <div className="sm:col-span-2">
-              <div className="mb-2 flex justify-between text-xs text-muted-foreground">
-                <span>Elapsed time</span>
-                <span>{formatProgress(timer.progress)}%</span>
-              </div>
-              <div aria-label={`${formatProgress(timer.progress)}% of elapsed time`} className="h-2 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuemax={100} aria-valuemin={0} aria-valuenow={Number(formatProgress(timer.progress))}>
-                <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${timer.progress}%` }} />
-              </div>
+        <div className="hidden lg:contents">
+          <span className="min-w-0">
+            <span className="block truncate font-medium">{timer.title}</span>
+            <span className="mt-1 block text-xs text-muted-foreground">{formatStatus(timer)}</span>
+          </span>
+          <span className="flex items-center justify-between gap-3 lg:block lg:text-right">
+            <span className="min-w-0">
+              <span className="block text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">Remaining time</span>
+              <span className="mt-1 block truncate text-sm font-medium">{formatRemaining(timer.remainingMilliseconds)}</span>
+            </span>
+          </span>
+          <div>
+            <div className="mb-1 flex justify-between text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">
+              <span>Elapsed</span>
+              <span>{formatProgress(timer.progress)}%</span>
             </div>
-            <Stat label="Remaining time" value={formatRemaining(timer.remainingMilliseconds)} />
+            <div
+              aria-label={`${formatProgress(timer.progress)}% of elapsed time`}
+              className="h-2 min-w-0 overflow-hidden rounded-full bg-muted"
+              role="progressbar"
+              aria-valuemax={100}
+              aria-valuemin={0}
+              aria-valuenow={Number(formatProgress(timer.progress))}
+            >
+              <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${timer.progress}%` }} />
+            </div>
+          </div>
+          <Stat className="lg:ml-6" label="Start" value={formatTimerDate(timer.startDate)} />
+          <Stat label="End" value={formatTimerDate(timer.endDate)} />
+        </div>
+        <div className="grid gap-3 lg:hidden">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
+            <span className="min-w-0">
+              <span className="block truncate font-medium">{timer.title}</span>
+              <span className="mt-1 block text-xs text-muted-foreground">{formatStatus(timer)}</span>
+            </span>
+            <span className="grid gap-1 text-right text-xs">
+              <span><span className="text-muted-foreground">Start </span>{formatTimerDate(timer.startDate)}</span>
+              <span><span className="text-muted-foreground">End </span>{formatTimerDate(timer.endDate)}</span>
+            </span>
+          </div>
+          <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-3">
+            <span>
+              <span className="block text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">Elapsed</span>
+              <span className="mt-1 block text-sm font-medium">{formatProgress(timer.progress)}%</span>
+            </span>
+            <div
+              aria-label={`${formatProgress(timer.progress)}% of elapsed time`}
+              className="mb-1 h-2 min-w-0 overflow-hidden rounded-full bg-muted"
+              role="progressbar"
+              aria-valuemax={100}
+              aria-valuemin={0}
+              aria-valuenow={Number(formatProgress(timer.progress))}
+            >
+              <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${timer.progress}%` }} />
+            </div>
+            <span className="text-right">
+              <span className="block text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">Remaining time</span>
+              <span className="mt-1 block text-sm font-medium">{formatRemaining(timer.remainingMilliseconds)}</span>
+            </span>
+          </div>
+          <div className="flex gap-2 md:hidden">
+            <Button className="flex-1" onClick={() => navigate(`/app/timers/${timer.id}/edit`)} variant="outline">
+              <PencilIcon aria-hidden="true" />
+              Edit
+            </Button>
+            <Button className="flex-1" onClick={() => setConfirmDelete(true)} variant="destructive">
+              <Trash2Icon aria-hidden="true" />
+              Delete
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="absolute right-4 top-4 hidden md:block">
+        <Popover>
+          <PopoverTrigger
+            render={(
+              <Button aria-label={`Actions for ${timer.title}`} size="icon-sm" variant="ghost" />
+            )}
+          >
+            <EllipsisIcon aria-hidden="true" />
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-40">
+            <Button className="justify-start" onClick={() => navigate(`/app/timers/${timer.id}/edit`)} variant="ghost">
+              <PencilIcon aria-hidden="true" />
+              Edit
+            </Button>
+            <Button className="justify-start" onClick={() => setConfirmDelete(true)} variant="ghost">
+              <Trash2Icon aria-hidden="true" />
+              Delete
+            </Button>
+          </PopoverContent>
+        </Popover>
+      </div>
+      {error && <p className="px-4 pb-4 text-sm text-destructive" role="alert">{error}</p>}
+      {confirmDelete && (
+        <div aria-modal="true" className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4" role="dialog">
+          <div aria-labelledby={`delete-title-${timer.id}`} className="w-full max-w-sm rounded-xl border bg-card p-5 shadow-lg">
+            <h2 className="text-lg font-semibold" id={`delete-title-${timer.id}`}>Delete timer?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Are you sure you want to delete “{timer.title}”?</p>
+            <div className="mt-5 flex justify-end gap-2">
+              <Button onClick={() => setConfirmDelete(false)} variant="outline">Cancel</Button>
+              <Button onClick={deleteTimer} variant="destructive">Delete timer</Button>
+            </div>
           </div>
         </div>
       )}
@@ -101,17 +190,17 @@ function TimerCard({ timer }: { timer: TimerViewModel }) {
   )
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ className, label, value }: { className?: string; label: string; value: string }) {
   return (
-    <span className="min-w-0">
-      <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">{label}</span>
+    <span className={`min-w-0 ${className ?? ''}`}>
+      <span className="block text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">{label}</span>
       <span className="mt-1 block truncate text-sm">{value}</span>
     </span>
   )
 }
 
-function formatDate(value: string) {
-  return dateFormatter.format(new Date(value))
+export function formatTimerDate(value: string, locale?: string | string[]) {
+  return new Intl.DateTimeFormat(locale, dateFormatterOptions).format(new Date(value))
 }
 
 function formatProgress(value: number) {

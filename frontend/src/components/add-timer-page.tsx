@@ -1,18 +1,37 @@
 import { useState, type FormEvent } from 'react'
 import { ArrowLeftIcon } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import DateTimePicker from '@/components/date-time-picker'
 import { TimerStorageService } from '@/services/timer-storage.service'
+import type { Timer } from '@/domain/timer'
 
 type FormErrors = Partial<Record<'title' | 'start' | 'end' | 'storage', string>>
 
 export default function AddTimerPage() {
+  return <TimerFormPage mode="add" />
+}
+
+export function EditTimerPage() {
+  return <TimerFormPage mode="edit" />
+}
+
+function TimerFormPage({ mode }: { mode: 'add' | 'edit' }) {
   const navigate = useNavigate()
-  const [title, setTitle] = useState('')
-  const [start, setStart] = useState('')
-  const [end, setEnd] = useState('')
-  const [errors, setErrors] = useState<FormErrors>({})
+  const { id } = useParams()
+  const [initialState] = useState(() => {
+    if (mode === 'add' || !id) return { title: '', start: undefined, end: undefined, missing: false }
+    const result = new TimerStorageService().read()
+    const timer = result.kind === 'timers' ? result.timers.find((candidate) => candidate.id === id) : undefined
+    return timer
+      ? { title: timer.title, start: new Date(timer.startDate), end: new Date(timer.endDate), missing: false }
+      : { title: '', start: undefined, end: undefined, missing: true }
+  })
+  const [title, setTitle] = useState(initialState.title)
+  const [start, setStart] = useState<Date | undefined>(initialState.start)
+  const [end, setEnd] = useState<Date | undefined>(initialState.end)
+  const [errors, setErrors] = useState<FormErrors>(initialState.missing ? { storage: 'The timer could not be found.' } : {})
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -23,12 +42,14 @@ export default function AddTimerPage() {
       return
     }
 
-    const result = new TimerStorageService().add({
-      id: createTimerId(),
+    const timer: Timer = {
+      id: mode === 'add' ? createTimerId() : id!,
       title: title.trim(),
-      startDate: new Date(start).toISOString(),
-      endDate: new Date(end).toISOString(),
-    })
+      startDate: start!.toISOString(),
+      endDate: end!.toISOString(),
+    }
+    const service = new TimerStorageService()
+    const result = mode === 'add' ? service.add(timer) : service.update(timer)
 
     if (result.kind === 'error') {
       setErrors({ storage: result.message })
@@ -46,8 +67,8 @@ export default function AddTimerPage() {
       </Link>
 
       <div className="mt-5">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">New timer</p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">Add a timer</h1>
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{mode === 'add' ? 'New timer' : 'Edit timer'}</p>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight">{mode === 'add' ? 'Add a timer' : 'Edit a timer'}</h1>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">
           Enter a title and choose when the timer starts and ends.
         </p>
@@ -68,23 +89,23 @@ export default function AddTimerPage() {
 
         <div className="grid gap-5 sm:grid-cols-2">
           <FormField error={errors.start} id="timer-start" label="Start">
-            <Input
+            <DateTimePicker
               aria-describedby={errors.start ? 'timer-start-error' : undefined}
               aria-invalid={Boolean(errors.start)}
               id="timer-start"
-              onChange={(event) => setStart(event.target.value)}
-              type="datetime-local"
+              onChange={setStart}
+              placeholder="Choose start date and time"
               value={start}
             />
           </FormField>
 
           <FormField error={errors.end} id="timer-end" label="End">
-            <Input
+            <DateTimePicker
               aria-describedby={errors.end ? 'timer-end-error' : undefined}
               aria-invalid={Boolean(errors.end)}
               id="timer-end"
-              onChange={(event) => setEnd(event.target.value)}
-              type="datetime-local"
+              onChange={setEnd}
+              placeholder="Choose end date and time"
               value={end}
             />
           </FormField>
@@ -133,14 +154,14 @@ function FormField({
   )
 }
 
-function validateTimer(title: string, start: string, end: string): FormErrors {
+function validateTimer(title: string, start: Date | undefined, end: Date | undefined): FormErrors {
   const errors: FormErrors = {}
 
   if (!title.trim()) errors.title = 'Enter a title.'
   if (!start) errors.start = 'Choose a start date and time.'
   if (!end) errors.end = 'Choose an end date and time.'
 
-  if (start && end && new Date(end).getTime() <= new Date(start).getTime()) {
+  if (start && end && end.getTime() <= start.getTime()) {
     errors.end = 'End must be after start.'
   }
 
