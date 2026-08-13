@@ -199,8 +199,12 @@ function Stat({ className, label, value }: { className?: string; label: string; 
   )
 }
 
-export function formatTimerDate(value: string, locale?: string | string[]) {
-  return new Intl.DateTimeFormat(locale, dateFormatterOptions).format(new Date(value))
+export function formatTimerDate(
+  value: string,
+  locale?: string | string[],
+  options?: Pick<Intl.DateTimeFormatOptions, 'timeZone'>,
+) {
+  return new Intl.DateTimeFormat(locale, { ...dateFormatterOptions, ...options }).format(new Date(value))
 }
 
 function formatProgress(value: number) {
