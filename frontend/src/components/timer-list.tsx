@@ -1,14 +1,16 @@
-import { useState } from 'react'
-import { ChevronDown, CircleAlert, PlusIcon } from 'lucide-react'
+import { CircleAlert, PlusIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useTimerList, type TimerListItem, type TimerViewModel } from '@/hooks/use-timer-list'
 import { buttonVariants } from '@/components/ui/button'
 import emptyTimersImage from '@/assets/hero.png'
 
-const dateFormatter = new Intl.DateTimeFormat('en-GB', {
-  dateStyle: 'medium',
-  timeStyle: 'short',
-})
+const dateFormatterOptions: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+}
 
 export default function TimerList() {
   const items = useTimerList()
@@ -55,63 +57,89 @@ function TimerListItemView({ item }: { item: TimerListItem }) {
 }
 
 function TimerCard({ timer }: { timer: TimerViewModel }) {
-  const [expanded, setExpanded] = useState(false)
-  const panelId = `timer-panel-${timer.id}`
-
   return (
     <article className="overflow-hidden rounded-xl border bg-card shadow-sm">
-      <button
-        aria-controls={panelId}
-        aria-expanded={expanded}
-        className="grid w-full gap-4 p-4 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset md:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))_auto] md:items-center"
-        onClick={() => setExpanded((value) => !value)}
-        type="button"
+      <div
+        className="grid w-full gap-2 p-4 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset lg:grid-cols-[minmax(10rem,14rem)_9rem_minmax(10rem,1fr)_14rem_14rem_auto] lg:items-center"
       >
-        <span className="min-w-0">
-          <span className="block truncate font-medium">{timer.title}</span>
-          <span className="mt-1 block text-xs text-muted-foreground">{formatStatus(timer)}</span>
-        </span>
-        <Stat label="Start" value={formatDate(timer.startDate)} />
-        <Stat label="End" value={formatDate(timer.endDate)} />
-        <Stat label="Elapsed" value={`${formatProgress(timer.progress)}%`} />
-        <span className="flex items-center justify-between gap-3 text-sm font-medium md:block md:text-right">
-          <span>{formatRemaining(timer.remainingMilliseconds)}</span>
-          <ChevronDown aria-hidden="true" className={`size-5 transition-transform ${expanded ? 'rotate-180' : ''}`} />
-        </span>
-      </button>
-      {expanded && (
-        <div className="border-t bg-muted/20 px-4 py-4" id={panelId}>
-          <div className="grid gap-4 text-sm sm:grid-cols-2">
-            <Stat label="Start date" value={formatDate(timer.startDate)} />
-            <Stat label="End date" value={formatDate(timer.endDate)} />
-            <div className="sm:col-span-2">
-              <div className="mb-2 flex justify-between text-xs text-muted-foreground">
-                <span>Elapsed time</span>
-                <span>{formatProgress(timer.progress)}%</span>
-              </div>
-              <div aria-label={`${formatProgress(timer.progress)}% of elapsed time`} className="h-2 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuemax={100} aria-valuemin={0} aria-valuenow={Number(formatProgress(timer.progress))}>
-                <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${timer.progress}%` }} />
-              </div>
+        <div className="hidden lg:contents">
+          <span className="min-w-0">
+            <span className="block truncate font-medium">{timer.title}</span>
+            <span className="mt-1 block text-xs text-muted-foreground">{formatStatus(timer)}</span>
+          </span>
+          <span className="flex items-center justify-between gap-3 lg:block lg:text-right">
+            <span className="min-w-0">
+              <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">Remaining time</span>
+              <span className="mt-1 block truncate text-sm font-medium">{formatRemaining(timer.remainingMilliseconds)}</span>
+            </span>
+          </span>
+          <div>
+            <div className="mb-1 flex justify-between text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+              <span>Elapsed</span>
+              <span>{formatProgress(timer.progress)}%</span>
             </div>
-            <Stat label="Remaining time" value={formatRemaining(timer.remainingMilliseconds)} />
+            <div
+              aria-label={`${formatProgress(timer.progress)}% of elapsed time`}
+              className="h-2 min-w-0 overflow-hidden rounded-full bg-muted"
+              role="progressbar"
+              aria-valuemax={100}
+              aria-valuemin={0}
+              aria-valuenow={Number(formatProgress(timer.progress))}
+            >
+              <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${timer.progress}%` }} />
+            </div>
+          </div>
+          <Stat className="lg:ml-6" label="Start" value={formatTimerDate(timer.startDate)} />
+          <Stat label="End" value={formatTimerDate(timer.endDate)} />
+        </div>
+        <div className="grid gap-3 lg:hidden">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
+            <span className="min-w-0">
+              <span className="block truncate font-medium">{timer.title}</span>
+              <span className="mt-1 block text-xs text-muted-foreground">{formatStatus(timer)}</span>
+            </span>
+            <span className="grid gap-1 text-right text-xs">
+              <span><span className="text-muted-foreground">Start </span>{formatTimerDate(timer.startDate)}</span>
+              <span><span className="text-muted-foreground">End </span>{formatTimerDate(timer.endDate)}</span>
+            </span>
+          </div>
+          <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-3">
+            <span>
+              <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">Elapsed</span>
+              <span className="mt-1 block text-sm font-medium">{formatProgress(timer.progress)}%</span>
+            </span>
+            <div
+              aria-label={`${formatProgress(timer.progress)}% of elapsed time`}
+              className="mb-1 h-2 min-w-0 overflow-hidden rounded-full bg-muted"
+              role="progressbar"
+              aria-valuemax={100}
+              aria-valuemin={0}
+              aria-valuenow={Number(formatProgress(timer.progress))}
+            >
+              <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${timer.progress}%` }} />
+            </div>
+            <span className="text-right">
+              <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">Remaining time</span>
+              <span className="mt-1 block text-sm font-medium">{formatRemaining(timer.remainingMilliseconds)}</span>
+            </span>
           </div>
         </div>
-      )}
+      </div>
     </article>
   )
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ className, label, value }: { className?: string; label: string; value: string }) {
   return (
-    <span className="min-w-0">
+    <span className={`min-w-0 ${className ?? ''}`}>
       <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">{label}</span>
       <span className="mt-1 block truncate text-sm">{value}</span>
     </span>
   )
 }
 
-function formatDate(value: string) {
-  return dateFormatter.format(new Date(value))
+export function formatTimerDate(value: string, locale?: string | string[]) {
+  return new Intl.DateTimeFormat(locale, dateFormatterOptions).format(new Date(value))
 }
 
 function formatProgress(value: number) {

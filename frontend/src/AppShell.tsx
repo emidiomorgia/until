@@ -5,9 +5,9 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 import AppSidebar from '@/components/app-sidebar'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { DownloadIcon, PlusIcon } from 'lucide-react'
-import { Link, Outlet } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { DownloadIcon } from 'lucide-react'
+import { Outlet } from 'react-router-dom'
 import { usePwaInstall } from '@/components/pwa-install-context'
 
 export default function AppShell() {
@@ -23,7 +23,7 @@ export default function AppShell() {
           <SidebarSeparator orientation="vertical" className="mr-2 h-4" />
           <div className="flex min-w-0 flex-col">
             <p className="truncate text-sm font-medium">Until</p>
-            <p className="truncate text-xs text-muted-foreground">Timers</p>
+            <p className="truncate text-xs text-muted-foreground">Timer list</p>
           </div>
           {!isPwaInstalled && isInstallAvailable ? (
             <Button
@@ -37,10 +37,6 @@ export default function AppShell() {
               <DownloadIcon aria-hidden="true" />
             </Button>
           ) : <div className="ml-auto" />}
-          <Link className={buttonVariants({ size: 'sm', className: '!text-primary-foreground' })} to="/app/timers/new">
-            <PlusIcon aria-hidden="true" />
-            Add timer
-          </Link>
         </header>
 
         <main className="flex min-w-0 flex-1 flex-col gap-6 p-4 md:p-6">
