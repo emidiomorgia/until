@@ -7,6 +7,7 @@ import { PwaInstallProvider } from './pwa-install-provider'
 describe('PWA install prompt', () => {
   beforeEach(() => {
     localStorage.clear()
+    sessionStorage.clear()
     window.matchMedia = vi.fn().mockImplementation(() => ({
       matches: false,
       addEventListener: vi.fn(),
@@ -57,7 +58,7 @@ describe('PWA install prompt', () => {
   })
 
   it('respects a persisted dismissal when the app route opens', async () => {
-    localStorage.setItem('until-pwa-install-banner-dismissed', 'true')
+    sessionStorage.setItem('until-pwa-install-banner-dismissed', 'true')
     renderPrompt()
     await act(async () => Promise.resolve())
 

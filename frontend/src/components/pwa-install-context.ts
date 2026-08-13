@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react'
 
 export type PwaInstallContextValue = {
   isPwaInstalled: boolean
+  isInstallAvailable: boolean
   isStandalone: boolean
   showInstallPrompt: (mode?: 'automatic' | 'manual') => void
 }

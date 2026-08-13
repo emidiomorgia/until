@@ -16,6 +16,7 @@ vi.mock('@khmyznikov/pwa-install', () => {
       this.isDialogHidden = true
     })
     install = vi.fn()
+    getInstalledRelatedApps = vi.fn(async () => [])
 
     connectedCallback() {
       this.isUnderStandaloneMode = window.matchMedia('(display-mode: standalone)').matches

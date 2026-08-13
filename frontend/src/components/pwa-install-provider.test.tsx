@@ -6,6 +6,7 @@ import { PwaInstallProvider } from './pwa-install-provider'
 
 describe('PwaInstallProvider', () => {
   beforeEach(() => {
+    window.history.replaceState({}, '', '/')
     window.matchMedia = vi.fn().mockImplementation(() => ({
       matches: false,
       addEventListener: vi.fn(),
@@ -13,7 +14,10 @@ describe('PwaInstallProvider', () => {
     }))
   })
 
-  afterEach(() => localStorage.clear())
+  afterEach(() => {
+    localStorage.clear()
+    sessionStorage.clear()
+  })
 
   function wrapper({ children }: { children: ReactNode }) {
     return <PwaInstallProvider>{children}</PwaInstallProvider>
@@ -42,17 +46,16 @@ describe('PwaInstallProvider', () => {
     expect(getInstallElement().showDialog).toHaveBeenCalledWith(true)
   })
 
-  it('persists the installed state after the library success event', async () => {
+  it('recognizes a PWA launch from the URL query parameter', () => {
+    window.history.replaceState({}, '', '/app?source=pwa')
+
     const { result } = renderHook(() => usePwaInstall(), { wrapper })
 
-    act(() => getInstallElement().dispatchEvent(new CustomEvent('pwa-install-success-event')))
-
-    await waitFor(() => expect(result.current.isPwaInstalled).toBe(true))
+    expect(result.current.isPwaInstalled).toBe(true)
     expect(result.current.isStandalone).toBe(false)
-    expect(localStorage.getItem('until-pwa-installed')).toBe('true')
   })
 
-  it('persists the installed state when launched in standalone mode', async () => {
+  it('recognizes standalone mode as a PWA launch', async () => {
     window.matchMedia = vi.fn().mockImplementation(() => ({
       matches: true,
       addEventListener: vi.fn(),
@@ -62,20 +65,27 @@ describe('PwaInstallProvider', () => {
     const { result } = renderHook(() => usePwaInstall(), { wrapper })
 
     await waitFor(() => expect(result.current.isPwaInstalled).toBe(true))
-    expect(localStorage.getItem('until-pwa-installed')).toBe('true')
   })
 
-  it('keeps the installed state when the installed PWA opens in a browser tab', () => {
+  it('ignores the legacy persisted installed state in a browser tab', () => {
     localStorage.setItem('until-pwa-installed', 'true')
 
     const { result } = renderHook(() => usePwaInstall(), { wrapper })
 
     expect(result.current.isStandalone).toBe(false)
-    expect(result.current.isPwaInstalled).toBe(true)
+    expect(result.current.isPwaInstalled).toBe(false)
+  })
+
+  it('clears the library prompt state left by older versions', () => {
+    localStorage.setItem('pwa-hide-install', 'true')
+
+    renderHook(() => usePwaInstall(), { wrapper })
+
+    expect(localStorage.getItem('pwa-hide-install')).toBeNull()
   })
 
   it('does not reopen the automatic dialog after a dismissal', async () => {
-    localStorage.setItem('until-pwa-install-banner-dismissed', 'true')
+    sessionStorage.setItem('until-pwa-install-banner-dismissed', 'true')
     const { result } = renderHook(() => usePwaInstall(), { wrapper })
 
     act(() => result.current.showInstallPrompt('automatic'))
@@ -91,6 +101,6 @@ describe('PwaInstallProvider', () => {
       detail: { message: 'dismissed' },
     })))
 
-    expect(localStorage.getItem('until-pwa-install-banner-dismissed')).toBe('true')
+    expect(sessionStorage.getItem('until-pwa-install-banner-dismissed')).toBe('true')
   })
 })
