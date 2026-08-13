@@ -15,6 +15,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { ListIcon, XIcon } from 'lucide-react'
 
+const appVersion = import.meta.env.VITE_APP_VERSION || 'dev'
+
 function MobileSidebarClose() {
   const { setOpenMobile } = useSidebar()
 
@@ -67,7 +69,7 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-4">
-        <p className="text-xs text-sidebar-foreground/60">Static preview · 0.1</p>
+        <p className="text-xs text-sidebar-foreground/60">Version {appVersion}</p>
       </SidebarFooter>
     </Sidebar>
   )

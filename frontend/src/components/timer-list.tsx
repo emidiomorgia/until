@@ -86,12 +86,12 @@ function TimerCard({ timer }: { timer: TimerViewModel }) {
           </span>
           <span className="flex items-center justify-between gap-3 lg:block lg:text-right">
             <span className="min-w-0">
-              <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">Remaining time</span>
+              <span className="block text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">Remaining time</span>
               <span className="mt-1 block truncate text-sm font-medium">{formatRemaining(timer.remainingMilliseconds)}</span>
             </span>
           </span>
           <div>
-            <div className="mb-1 flex justify-between text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+            <div className="mb-1 flex justify-between text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">
               <span>Elapsed</span>
               <span>{formatProgress(timer.progress)}%</span>
             </div>
@@ -122,7 +122,7 @@ function TimerCard({ timer }: { timer: TimerViewModel }) {
           </div>
           <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-end gap-3">
             <span>
-              <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">Elapsed</span>
+              <span className="block text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">Elapsed</span>
               <span className="mt-1 block text-sm font-medium">{formatProgress(timer.progress)}%</span>
             </span>
             <div
@@ -136,7 +136,7 @@ function TimerCard({ timer }: { timer: TimerViewModel }) {
               <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${timer.progress}%` }} />
             </div>
             <span className="text-right">
-              <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">Remaining time</span>
+              <span className="block text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">Remaining time</span>
               <span className="mt-1 block text-sm font-medium">{formatRemaining(timer.remainingMilliseconds)}</span>
             </span>
           </div>
@@ -193,7 +193,7 @@ function TimerCard({ timer }: { timer: TimerViewModel }) {
 function Stat({ className, label, value }: { className?: string; label: string; value: string }) {
   return (
     <span className={`min-w-0 ${className ?? ''}`}>
-      <span className="block text-[0.68rem] font-medium uppercase tracking-[0.12em] text-muted-foreground">{label}</span>
+      <span className="block text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground md:text-[0.68rem]">{label}</span>
       <span className="mt-1 block truncate text-sm">{value}</span>
     </span>
   )

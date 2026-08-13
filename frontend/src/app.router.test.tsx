@@ -56,6 +56,7 @@ describe('application routes', () => {
     expect(screen.getByRole('button', { name: 'Close application sidebar' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Timer list' })).toBeInTheDocument()
     expect(screen.getByText('Timer list', { selector: 'header p' })).toBeInTheDocument()
+    expect(screen.getByText('Version dev')).toBeInTheDocument()
     expect(within(screen.getByRole('banner')).queryByRole('link', { name: 'Add timer' })).not.toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Timers' })).toBeInTheDocument()
     expect(screen.queryByText('Workspace')).not.toBeInTheDocument()
