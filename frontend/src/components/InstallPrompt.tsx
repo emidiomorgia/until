@@ -1,17 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { registerServiceWorker } from '@/pwa'
+import { usePwaInstall } from '@/components/pwa-install-context'
 
-type BeforeInstallPromptEvent = Event & {
-  prompt: () => Promise<void>
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
-}
-
-function isStandalone() {
-  return window.matchMedia('(display-mode: standalone)').matches ||
-    (window.navigator as Navigator & { standalone?: boolean }).standalone === true
-}
+const DISMISSED_STORAGE_KEY = 'until-pwa-install-banner-dismissed'
 
 function isAppleFallback() {
   const userAgent = navigator.userAgent
@@ -25,54 +17,36 @@ function isChromium() {
 
 export default function InstallPrompt() {
   const { pathname } = useLocation()
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [dismissed, setDismissed] = useState(false)
-  const [standalone, setStandalone] = useState(isStandalone)
-
-  useEffect(() => {
-    registerServiceWorker()
-
-    const handleBeforeInstallPrompt = (event: Event) => {
-      event.preventDefault()
-      setDeferredPrompt(event as BeforeInstallPromptEvent)
+  const { canPromptInstall, install, isPwaInstalled } = usePwaInstall()
+  const [dismissed, setDismissed] = useState(() => {
+    try {
+      return localStorage.getItem(DISMISSED_STORAGE_KEY) === 'true'
+    } catch {
+      return false
     }
-    const handleAppInstalled = () => {
-      setDeferredPrompt(null)
-      setStandalone(true)
-    }
-    const mediaQuery = window.matchMedia('(display-mode: standalone)')
-    const handleDisplayModeChange = () => setStandalone(isStandalone())
+  })
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-    window.addEventListener('appinstalled', handleAppInstalled)
-    mediaQuery.addEventListener?.('change', handleDisplayModeChange)
+  if (pathname !== '/app' || isPwaInstalled || dismissed) return null
 
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-      window.removeEventListener('appinstalled', handleAppInstalled)
-      mediaQuery.removeEventListener?.('change', handleDisplayModeChange)
-    }
-  }, [])
-
-  if (pathname !== '/app' || standalone || dismissed) return null
-
-  const fallback = !deferredPrompt && !isChromium()
-  if (!deferredPrompt && !fallback) return null
+  const fallback = !canPromptInstall && !isChromium()
+  if (!canPromptInstall && !fallback) return null
 
   const apple = isAppleFallback()
 
-  async function install() {
-    if (!deferredPrompt) return
-    await deferredPrompt.prompt()
-    await deferredPrompt.userChoice
-    setDeferredPrompt(null)
+  function dismiss() {
+    try {
+      localStorage.setItem(DISMISSED_STORAGE_KEY, 'true')
+    } catch {
+      // Keep the in-memory dismissal when persistent storage is unavailable.
+    }
+    setDismissed(true)
   }
 
   return (
     <aside className="install-banner" aria-label="Install until">
       <div>
         <p className="install-banner-title">Keep until close</p>
-        {deferredPrompt ? (
+        {canPromptInstall ? (
           <p className="install-banner-copy">Install the until app for quick access from your device.</p>
         ) : (
           <details className="install-instructions" open>
@@ -86,10 +60,10 @@ export default function InstallPrompt() {
         )}
       </div>
       <div className="install-banner-actions">
-        {deferredPrompt ? (
-          <Button type="button" size="sm" onClick={install}>Install until</Button>
+        {canPromptInstall ? (
+          <Button type="button" size="sm" onClick={() => void install()}>Install until</Button>
         ) : null}
-        <Button type="button" size="sm" variant="ghost" onClick={() => setDismissed(true)} aria-label="Dismiss install prompt">
+        <Button type="button" size="sm" variant="ghost" onClick={dismiss} aria-label="Dismiss install prompt">
           Not now
         </Button>
       </div>

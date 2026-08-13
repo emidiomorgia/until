@@ -4,6 +4,7 @@ import AppShell from './AppShell'
 import InstallPrompt from './components/InstallPrompt'
 import AddTimerPage from './components/add-timer-page'
 import TimerListPage from './components/timer-list-page'
+import { PwaInstallProvider } from './components/pwa-install-provider'
 
 export function AppRoutes() {
   return (
@@ -21,8 +22,10 @@ export function AppRoutes() {
 export function AppRouter() {
   return (
     <BrowserRouter>
-      <InstallPrompt />
-      <AppRoutes />
+      <PwaInstallProvider>
+        <InstallPrompt />
+        <AppRoutes />
+      </PwaInstallProvider>
     </BrowserRouter>
   )
 }

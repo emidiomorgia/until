@@ -1,13 +1,24 @@
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { AppRoutes } from './app.router'
 import InstallPrompt from './components/InstallPrompt'
+import { PwaInstallProvider } from './components/pwa-install-provider'
+
+const originalMatchMedia = window.matchMedia
+const originalUserAgent = navigator.userAgent
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia
+  Object.defineProperty(navigator, 'userAgent', { configurable: true, value: originalUserAgent })
+})
 
 function renderAt(path: string) {
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <AppRoutes />
+      <PwaInstallProvider>
+        <AppRoutes />
+      </PwaInstallProvider>
     </MemoryRouter>,
   )
 }
@@ -100,8 +111,10 @@ describe('application routes', () => {
 
     render(
       <MemoryRouter initialEntries={['/']}>
-        <InstallPrompt />
-        <AppRoutes />
+        <PwaInstallProvider>
+          <InstallPrompt />
+          <AppRoutes />
+        </PwaInstallProvider>
       </MemoryRouter>,
     )
 
@@ -119,8 +132,10 @@ describe('application routes', () => {
 
     render(
       <MemoryRouter initialEntries={['/app']}>
-        <InstallPrompt />
-        <AppRoutes />
+        <PwaInstallProvider>
+          <InstallPrompt />
+          <AppRoutes />
+        </PwaInstallProvider>
       </MemoryRouter>,
     )
 
@@ -131,5 +146,66 @@ describe('application routes', () => {
     renderAt('/not-a-real-route')
     expect(screen.getByRole('heading', { name: /make time/i })).toBeInTheDocument()
     expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+  })
+
+  it('keeps the toolbar install action visible after the banner is dismissed', async () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      configurable: true,
+      value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15',
+    })
+
+    render(
+      <MemoryRouter initialEntries={['/app']}>
+        <PwaInstallProvider>
+          <InstallPrompt />
+          <AppRoutes />
+        </PwaInstallProvider>
+      </MemoryRouter>,
+    )
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Dismiss install prompt' }))
+
+    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+    const toolbarInstall = screen.getByRole('button', { name: 'Install until' })
+    expect(toolbarInstall).toBeInTheDocument()
+
+    fireEvent.click(toolbarInstall)
+    expect(await screen.findByRole('region', { name: 'Install until instructions' })).toBeInTheDocument()
+  })
+
+  it('hides banner and toolbar install actions in standalone mode', () => {
+    window.matchMedia = vi.fn().mockImplementation(() => ({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }))
+
+    render(
+      <MemoryRouter initialEntries={['/app']}>
+        <PwaInstallProvider>
+          <InstallPrompt />
+          <AppRoutes />
+        </PwaInstallProvider>
+      </MemoryRouter>,
+    )
+
+    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Install until' })).not.toBeInTheDocument()
+  })
+
+  it('hides banner and toolbar install actions when an installed PWA opens in a browser tab', () => {
+    localStorage.setItem('until-pwa-installed', 'true')
+
+    render(
+      <MemoryRouter initialEntries={['/app']}>
+        <PwaInstallProvider>
+          <InstallPrompt />
+          <AppRoutes />
+        </PwaInstallProvider>
+      </MemoryRouter>,
+    )
+
+    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Install until' })).not.toBeInTheDocument()
   })
 })

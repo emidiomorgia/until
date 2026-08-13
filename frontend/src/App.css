@@ -20,6 +20,8 @@ main.landing-page { overflow: hidden; }
 .install-instructions summary { cursor:pointer; color:#5e4ed5; font-size:12px; font-weight:600; }
 .install-banner-copy { max-width:330px; margin:4px 0 0; color:#6e696a; font-size:12px; line-height:1.45; }
 .install-banner-actions { display:flex; flex-shrink:0; align-items:center; gap:4px; }
+.install-toolbar-instructions { display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid #d5d0cb; background:#f7f5ff; padding:10px 16px; color:#554a75; font-size:12px; }
+.install-toolbar-instructions p { margin:0; }
 .hero-orbit { width:min(40vw,470px); height:min(40vw,470px); justify-self:end; position:relative; }
 .orbit { border:1px solid #d5d0cb; border-radius:50%; position:absolute; inset:0; transform:rotate(-28deg) scaleY(.4); }
 .orbit-two { inset:13%; transform:rotate(35deg) scaleY(.4); border-color:#cbc4e9; }

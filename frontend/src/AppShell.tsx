@@ -5,11 +5,21 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 import AppSidebar from '@/components/app-sidebar'
-import { buttonVariants } from '@/components/ui/button'
-import { PlusIcon } from 'lucide-react'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { DownloadIcon, PlusIcon, XIcon } from 'lucide-react'
+import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
+import { usePwaInstall } from '@/components/pwa-install-context'
 
 export default function AppShell() {
+  const { install, isPwaInstalled } = usePwaInstall()
+  const [showInstallInstructions, setShowInstallInstructions] = useState(false)
+
+  async function handleInstall() {
+    const result = await install()
+    setShowInstallInstructions(result === 'manual')
+  }
+
   return (
     <SidebarProvider className="app-shell bg-muted/30">
       <AppSidebar />
@@ -22,11 +32,38 @@ export default function AppShell() {
             <p className="truncate text-sm font-medium">Until</p>
             <p className="truncate text-xs text-muted-foreground">Timers</p>
           </div>
-          <Link className={buttonVariants({ size: 'sm', className: 'ml-auto !text-primary-foreground' })} to="/app/timers/new">
+          {!isPwaInstalled ? (
+            <Button
+              type="button"
+              size="icon-sm"
+              variant="ghost"
+              className="ml-auto"
+              aria-label="Install until"
+              onClick={() => void handleInstall()}
+            >
+              <DownloadIcon aria-hidden="true" />
+            </Button>
+          ) : <div className="ml-auto" />}
+          <Link className={buttonVariants({ size: 'sm', className: '!text-primary-foreground' })} to="/app/timers/new">
             <PlusIcon aria-hidden="true" />
             Add timer
           </Link>
         </header>
+
+        {showInstallInstructions && !isPwaInstalled ? (
+          <section className="install-toolbar-instructions" aria-label="Install until instructions">
+            <p>Use your browser menu and choose the option to install or add this app to your home screen.</p>
+            <Button
+              type="button"
+              size="icon-sm"
+              variant="ghost"
+              aria-label="Close install instructions"
+              onClick={() => setShowInstallInstructions(false)}
+            >
+              <XIcon aria-hidden="true" />
+            </Button>
+          </section>
+        ) : null}
 
         <main className="flex min-w-0 flex-1 flex-col gap-6 p-4 md:p-6">
           <Outlet />

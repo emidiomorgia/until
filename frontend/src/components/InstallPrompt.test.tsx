@@ -1,20 +1,27 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import InstallPrompt from './InstallPrompt'
+import { PwaInstallProvider } from './pwa-install-provider'
 
 const originalUserAgent = navigator.userAgent
+const originalMatchMedia = window.matchMedia
 
 afterEach(() => {
   vi.restoreAllMocks()
   Object.defineProperty(navigator, 'userAgent', { configurable: true, value: originalUserAgent })
+  window.matchMedia = originalMatchMedia
 })
 
 describe('PWA install prompt', () => {
+  beforeEach(() => localStorage.clear())
+
   function renderPrompt() {
     return render(
       <MemoryRouter initialEntries={['/app']}>
-        <InstallPrompt />
+        <PwaInstallProvider>
+          <InstallPrompt />
+        </PwaInstallProvider>
       </MemoryRouter>,
     )
   }
@@ -55,6 +62,24 @@ describe('PWA install prompt', () => {
       removeEventListener: vi.fn(),
     }))
 
+    renderPrompt()
+
+    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+  })
+
+  it('persists dismissal so the banner stays hidden after remounting', async () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      configurable: true,
+      value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15',
+    })
+
+    const firstRender = renderPrompt()
+    fireEvent.click(await screen.findByRole('button', { name: 'Dismiss install prompt' }))
+
+    expect(localStorage.getItem('until-pwa-install-banner-dismissed')).toBe('true')
+    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+
+    firstRender.unmount()
     renderPrompt()
 
     expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
