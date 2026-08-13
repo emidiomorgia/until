@@ -15,11 +15,6 @@ main.landing-page { overflow: hidden; }
 .hero-actions { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
 .primary-button { display:inline-flex; gap:30px; align-items:center; background:#5e4ed5; color:#fff; border-radius:100px; padding:15px 19px 15px 22px; font-size:13px; }
 .secondary-button { display:inline-flex; gap:20px; align-items:center; border:1px solid #d5d0cb; color:#5e4ed5; border-radius:100px; padding:14px 18px 14px 20px; font-size:13px; }
-.install-banner { position:fixed; z-index:50; right:16px; bottom:16px; display:flex; gap:20px; align-items:center; max-width:min(560px,calc(100% - 32px)); padding:16px 18px; border:1px solid #d5d0cb; border-radius:14px; background:#fff; box-shadow:0 16px 40px #2c253b20; }
-.install-banner-title { margin:0; font-size:14px; font-weight:600; }
-.install-instructions summary { cursor:pointer; color:#5e4ed5; font-size:12px; font-weight:600; }
-.install-banner-copy { max-width:330px; margin:4px 0 0; color:#6e696a; font-size:12px; line-height:1.45; }
-.install-banner-actions { display:flex; flex-shrink:0; align-items:center; gap:4px; }
 .hero-orbit { width:min(40vw,470px); height:min(40vw,470px); justify-self:end; position:relative; }
 .orbit { border:1px solid #d5d0cb; border-radius:50%; position:absolute; inset:0; transform:rotate(-28deg) scaleY(.4); }
 .orbit-two { inset:13%; transform:rotate(35deg) scaleY(.4); border-color:#cbc4e9; }
@@ -42,4 +37,3 @@ main.landing-page { overflow: hidden; }
 .detail-content h3 { font-size:31px; }.progress-label { display:flex; justify-content:space-between; font-size:10px; margin-bottom:7px; }.progress-label strong { color:#5e4ed5; }.progress-track { height:7px; background:#e9e6f8; border-radius:10px; margin-bottom:25px; }.progress-track span { display:block; width:64%; height:100%; background:#5e4ed5; border-radius:inherit; }.detail-stats { display:grid; grid-template-columns:1fr 1fr; gap:18px 8px; margin:0; }.detail-stats div:last-child { grid-column:1/-1; border-top:1px solid #ece9e5; padding-top:16px; }.detail-stats dt { color:#9b9491; font-size:8px; margin-bottom:5px; }.detail-stats dd { margin:0; font-size:11px; }
 footer { border-top:1px solid #dedbd5; padding:23px 0 28px; display:flex; align-items:center; gap:9px; color:#8d8886; font-size:12px; }footer img { width:18px; height:18px; object-fit:contain; }footer p { margin:0; }footer span { margin-left:auto; font-size:9px; }
 @media (max-width: 760px) { .topbar,.hero,.preview-section,footer { width:calc(100% - 36px); }.nav-note { display:none; }.hero { display:block; min-height:auto; }.hero-copy { padding:75px 0 25px; }.hero-orbit { width:76vw; height:76vw; max-width:390px; margin:25px auto 55px; }.section-heading { display:block; }.section-heading h2 { margin-top:14px; }.mockups { grid-template-columns:1fr; gap:38px; }.mockup:nth-child(2),.mockup:nth-child(3) { margin-top:0; }.preview-section { padding:55px 0 75px; }.mockup-window { min-height:0; } }
-@media (max-width: 560px) { .install-banner { right:10px; bottom:10px; max-width:calc(100% - 20px); flex-direction:column; align-items:stretch; gap:12px; }.install-banner-actions { justify-content:flex-end; } }

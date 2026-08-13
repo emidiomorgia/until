@@ -1,54 +1,49 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import InstallPrompt from './InstallPrompt'
-
-const originalUserAgent = navigator.userAgent
-
-afterEach(() => {
-  vi.restoreAllMocks()
-  Object.defineProperty(navigator, 'userAgent', { configurable: true, value: originalUserAgent })
-})
+import { PwaInstallProvider } from './pwa-install-provider'
 
 describe('PWA install prompt', () => {
-  function renderPrompt() {
+  beforeEach(() => {
+    localStorage.clear()
+    window.matchMedia = vi.fn().mockImplementation(() => ({
+      matches: false,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }))
+  })
+
+  function renderPrompt(path = '/app') {
     return render(
-      <MemoryRouter initialEntries={['/app']}>
-        <InstallPrompt />
+      <MemoryRouter initialEntries={[path]}>
+        <PwaInstallProvider>
+          <InstallPrompt />
+        </PwaInstallProvider>
       </MemoryRouter>,
     )
   }
 
-  it('captures beforeinstallprompt and calls the native prompt from the install button', async () => {
-    const prompt = vi.fn().mockResolvedValue(undefined)
-    const event = new Event('beforeinstallprompt', { cancelable: true }) as Event & {
-      prompt: () => Promise<void>
-      userChoice: Promise<{ outcome: 'accepted' }>
+  function getInstallElement() {
+    return document.querySelector('pwa-install') as HTMLElement & {
+      showDialog: ReturnType<typeof vi.fn>
     }
-    Object.assign(event, { prompt, userChoice: Promise.resolve({ outcome: 'accepted' as const }) })
+  }
 
-    renderPrompt()
-    window.dispatchEvent(event)
-
-    const installButton = await screen.findByRole('button', { name: 'Install until' })
-    installButton.click()
-    await waitFor(() => expect(prompt).toHaveBeenCalledTimes(1))
-  })
-
-  it('renders platform guidance without claiming a native prompt when Chrome event is unavailable', async () => {
-    Object.defineProperty(navigator, 'userAgent', {
-      configurable: true,
-      value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15',
-    })
-
+  it('requests the library dialog when the app route opens', async () => {
     renderPrompt()
 
-    expect(await screen.findByText(/Add to Home Screen or Add to Dock/i)).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'Install until' })).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Dismiss install prompt' })).toBeInTheDocument()
+    await waitFor(() => expect(getInstallElement().showDialog).toHaveBeenCalledWith())
   })
 
-  it('suppresses all install UI in standalone mode', () => {
+  it('does not request the library dialog on the landing page', async () => {
+    renderPrompt('/')
+    await act(async () => Promise.resolve())
+
+    expect(getInstallElement().showDialog).not.toHaveBeenCalled()
+  })
+
+  it('suppresses the automatic dialog in standalone mode', async () => {
     window.matchMedia = vi.fn().mockImplementation(() => ({
       matches: true,
       addEventListener: vi.fn(),
@@ -56,7 +51,16 @@ describe('PWA install prompt', () => {
     }))
 
     renderPrompt()
+    await act(async () => Promise.resolve())
 
-    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+    expect(getInstallElement().showDialog).not.toHaveBeenCalled()
+  })
+
+  it('respects a persisted dismissal when the app route opens', async () => {
+    localStorage.setItem('until-pwa-install-banner-dismissed', 'true')
+    renderPrompt()
+    await act(async () => Promise.resolve())
+
+    expect(getInstallElement().showDialog).not.toHaveBeenCalled()
   })
 })

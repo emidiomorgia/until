@@ -5,11 +5,14 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 import AppSidebar from '@/components/app-sidebar'
-import { buttonVariants } from '@/components/ui/button'
-import { PlusIcon } from 'lucide-react'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { DownloadIcon, PlusIcon } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
+import { usePwaInstall } from '@/components/pwa-install-context'
 
 export default function AppShell() {
+  const { showInstallPrompt, isPwaInstalled } = usePwaInstall()
+
   return (
     <SidebarProvider className="app-shell bg-muted/30">
       <AppSidebar />
@@ -22,7 +25,19 @@ export default function AppShell() {
             <p className="truncate text-sm font-medium">Until</p>
             <p className="truncate text-xs text-muted-foreground">Timers</p>
           </div>
-          <Link className={buttonVariants({ size: 'sm', className: 'ml-auto !text-primary-foreground' })} to="/app/timers/new">
+          {!isPwaInstalled ? (
+            <Button
+              type="button"
+              size="icon-sm"
+              variant="ghost"
+              className="ml-auto"
+              aria-label="Install until"
+              onClick={() => showInstallPrompt('manual')}
+            >
+              <DownloadIcon aria-hidden="true" />
+            </Button>
+          ) : <div className="ml-auto" />}
+          <Link className={buttonVariants({ size: 'sm', className: '!text-primary-foreground' })} to="/app/timers/new">
             <PlusIcon aria-hidden="true" />
             Add timer
           </Link>
