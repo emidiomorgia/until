@@ -63,4 +63,19 @@ describe('TimerStorageService', () => {
     expect(new TimerStorageService().add(invalidTimer)).toMatchObject({ kind: 'error' })
     expect(localStorage.getItem(TIMER_STORAGE_KEY)).toBeNull()
   })
+
+  it('updates an existing timer without changing its id', () => {
+    localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify([timer]))
+    const updatedTimer = { ...timer, title: 'Rilascio aggiornato' }
+
+    expect(new TimerStorageService().update(updatedTimer)).toEqual({ kind: 'timers', timers: [updatedTimer] })
+    expect(JSON.parse(localStorage.getItem(TIMER_STORAGE_KEY) ?? 'null')).toEqual([updatedTimer])
+  })
+
+  it('removes a timer and leaves the other timers intact', () => {
+    const otherTimer = { ...timer, id: 'two', title: 'Altro timer' }
+    localStorage.setItem(TIMER_STORAGE_KEY, JSON.stringify([timer, otherTimer]))
+
+    expect(new TimerStorageService().remove(timer.id)).toEqual({ kind: 'timers', timers: [otherTimer] })
+  })
 })

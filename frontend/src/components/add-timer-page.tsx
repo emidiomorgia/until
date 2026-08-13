@@ -1,19 +1,37 @@
 import { useState, type FormEvent } from 'react'
 import { ArrowLeftIcon } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import DateTimePicker from '@/components/date-time-picker'
 import { TimerStorageService } from '@/services/timer-storage.service'
+import type { Timer } from '@/domain/timer'
 
 type FormErrors = Partial<Record<'title' | 'start' | 'end' | 'storage', string>>
 
 export default function AddTimerPage() {
+  return <TimerFormPage mode="add" />
+}
+
+export function EditTimerPage() {
+  return <TimerFormPage mode="edit" />
+}
+
+function TimerFormPage({ mode }: { mode: 'add' | 'edit' }) {
   const navigate = useNavigate()
-  const [title, setTitle] = useState('')
-  const [start, setStart] = useState<Date>()
-  const [end, setEnd] = useState<Date>()
-  const [errors, setErrors] = useState<FormErrors>({})
+  const { id } = useParams()
+  const [initialState] = useState(() => {
+    if (mode === 'add' || !id) return { title: '', start: undefined, end: undefined, missing: false }
+    const result = new TimerStorageService().read()
+    const timer = result.kind === 'timers' ? result.timers.find((candidate) => candidate.id === id) : undefined
+    return timer
+      ? { title: timer.title, start: new Date(timer.startDate), end: new Date(timer.endDate), missing: false }
+      : { title: '', start: undefined, end: undefined, missing: true }
+  })
+  const [title, setTitle] = useState(initialState.title)
+  const [start, setStart] = useState<Date | undefined>(initialState.start)
+  const [end, setEnd] = useState<Date | undefined>(initialState.end)
+  const [errors, setErrors] = useState<FormErrors>(initialState.missing ? { storage: 'The timer could not be found.' } : {})
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -24,12 +42,14 @@ export default function AddTimerPage() {
       return
     }
 
-    const result = new TimerStorageService().add({
-      id: createTimerId(),
+    const timer: Timer = {
+      id: mode === 'add' ? createTimerId() : id!,
       title: title.trim(),
       startDate: start!.toISOString(),
       endDate: end!.toISOString(),
-    })
+    }
+    const service = new TimerStorageService()
+    const result = mode === 'add' ? service.add(timer) : service.update(timer)
 
     if (result.kind === 'error') {
       setErrors({ storage: result.message })
@@ -47,8 +67,8 @@ export default function AddTimerPage() {
       </Link>
 
       <div className="mt-5">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">New timer</p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">Add a timer</h1>
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{mode === 'add' ? 'New timer' : 'Edit timer'}</p>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight">{mode === 'add' ? 'Add a timer' : 'Edit a timer'}</h1>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">
           Enter a title and choose when the timer starts and ends.
         </p>

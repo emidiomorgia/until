@@ -122,6 +122,42 @@ describe('application routes', () => {
     expect(Date.parse(storedTimers[0].endDate)).toBeGreaterThan(Date.parse(storedTimers[0].startDate))
   })
 
+  it('prepopulates and saves the edit timer form', () => {
+    localStorage.setItem('until-timers', JSON.stringify([{
+      id: 'one',
+      title: 'Timer originale',
+      startDate: '2026-08-11T09:00:00.000Z',
+      endDate: '2026-08-11T17:00:00.000Z',
+    }]))
+
+    renderAt('/app/timers/one/edit')
+
+    expect(screen.getByRole('heading', { name: 'Edit a timer' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Title')).toHaveValue('Timer originale')
+    fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Timer aggiornato' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Save timer' }))
+
+    expect(JSON.parse(localStorage.getItem('until-timers') ?? '[]')[0].title).toBe('Timer aggiornato')
+    expect(screen.getAllByText('Timer aggiornato')).toHaveLength(2)
+  })
+
+  it('asks for confirmation before deleting a timer', () => {
+    localStorage.setItem('until-timers', JSON.stringify([{
+      id: 'one',
+      title: 'Timer da eliminare',
+      startDate: '2026-08-11T09:00:00.000Z',
+      endDate: '2026-08-11T17:00:00.000Z',
+    }]))
+
+    renderAt('/app')
+    fireEvent.click(screen.getAllByRole('button', { name: 'Delete' })[0])
+
+    expect(screen.getByRole('dialog')).toHaveTextContent('Are you sure')
+    expect(localStorage.getItem('until-timers')).toContain('Timer da eliminare')
+    fireEvent.click(screen.getByRole('button', { name: 'Delete timer' }))
+    expect(localStorage.getItem('until-timers')).toBe('[]')
+  })
+
   it('keeps the installer mounted on the landing page and opens it after navigating to /app', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>

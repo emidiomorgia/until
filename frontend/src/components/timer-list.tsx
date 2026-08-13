@@ -1,7 +1,11 @@
-import { CircleAlert, PlusIcon } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { CircleAlert, EllipsisIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTimerList, type TimerListItem, type TimerViewModel } from '@/hooks/use-timer-list'
 import { buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { TimerStorageService } from '@/services/timer-storage.service'
 import emptyTimersImage from '@/assets/hero.png'
 
 const dateFormatterOptions: Intl.DateTimeFormatOptions = {
@@ -57,10 +61,23 @@ function TimerListItemView({ item }: { item: TimerListItem }) {
 }
 
 function TimerCard({ timer }: { timer: TimerViewModel }) {
+  const navigate = useNavigate()
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  const [error, setError] = useState<string>()
+
+  function deleteTimer() {
+    const result = new TimerStorageService().remove(timer.id)
+    if (result.kind === 'error') {
+      setError(result.message)
+      return
+    }
+    setConfirmDelete(false)
+  }
+
   return (
-    <article className="overflow-hidden rounded-xl border bg-card shadow-sm">
+    <article className="relative overflow-hidden rounded-xl border bg-card shadow-sm">
       <div
-        className="grid w-full gap-2 p-4 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset lg:grid-cols-[minmax(10rem,14rem)_9rem_minmax(10rem,1fr)_14rem_14rem_auto] lg:items-center"
+        className="grid w-full gap-2 p-4 pr-4 text-left transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset md:pr-14 lg:grid-cols-[minmax(10rem,14rem)_9rem_minmax(10rem,1fr)_14rem_14rem_auto] lg:items-center"
       >
         <div className="hidden lg:contents">
           <span className="min-w-0">
@@ -123,8 +140,52 @@ function TimerCard({ timer }: { timer: TimerViewModel }) {
               <span className="mt-1 block text-sm font-medium">{formatRemaining(timer.remainingMilliseconds)}</span>
             </span>
           </div>
+          <div className="flex gap-2 md:hidden">
+            <Button className="flex-1" onClick={() => navigate(`/app/timers/${timer.id}/edit`)} variant="outline">
+              <PencilIcon aria-hidden="true" />
+              Edit
+            </Button>
+            <Button className="flex-1" onClick={() => setConfirmDelete(true)} variant="destructive">
+              <Trash2Icon aria-hidden="true" />
+              Delete
+            </Button>
+          </div>
         </div>
       </div>
+      <div className="absolute right-4 top-4 hidden md:block">
+        <Popover>
+          <PopoverTrigger
+            render={(
+              <Button aria-label={`Actions for ${timer.title}`} size="icon-sm" variant="ghost" />
+            )}
+          >
+            <EllipsisIcon aria-hidden="true" />
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-40">
+            <Button className="justify-start" onClick={() => navigate(`/app/timers/${timer.id}/edit`)} variant="ghost">
+              <PencilIcon aria-hidden="true" />
+              Edit
+            </Button>
+            <Button className="justify-start" onClick={() => setConfirmDelete(true)} variant="ghost">
+              <Trash2Icon aria-hidden="true" />
+              Delete
+            </Button>
+          </PopoverContent>
+        </Popover>
+      </div>
+      {error && <p className="px-4 pb-4 text-sm text-destructive" role="alert">{error}</p>}
+      {confirmDelete && (
+        <div aria-modal="true" className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4" role="dialog">
+          <div aria-labelledby={`delete-title-${timer.id}`} className="w-full max-w-sm rounded-xl border bg-card p-5 shadow-lg">
+            <h2 className="text-lg font-semibold" id={`delete-title-${timer.id}`}>Delete timer?</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Are you sure you want to delete “{timer.title}”?</p>
+            <div className="mt-5 flex justify-end gap-2">
+              <Button onClick={() => setConfirmDelete(false)} variant="outline">Cancel</Button>
+              <Button onClick={deleteTimer} variant="destructive">Delete timer</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </article>
   )
 }

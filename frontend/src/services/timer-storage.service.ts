@@ -43,11 +43,50 @@ export class TimerStorageService {
     const timers = [...current.timers, timer]
 
     try {
-      this.storage.setItem(TIMER_STORAGE_KEY, JSON.stringify(timers))
+      this.write(timers)
       return { kind: 'timers', timers }
     } catch {
       return { kind: 'error', message: 'The timer could not be saved.' }
     }
+  }
+
+  update(timer: Timer): TimerStorageResult {
+    if (!isTimer(timer)) return { kind: 'error', message: 'The timer data is invalid.' }
+
+    const current = this.read()
+    if (current.kind === 'error') return current
+
+    if (!current.timers.some((savedTimer) => savedTimer.id === timer.id)) {
+      return { kind: 'error', message: 'The timer could not be found.' }
+    }
+
+    const timers = current.timers.map((savedTimer) => savedTimer.id === timer.id ? timer : savedTimer)
+
+    try {
+      this.write(timers)
+      return { kind: 'timers', timers }
+    } catch {
+      return { kind: 'error', message: 'The timer could not be saved.' }
+    }
+  }
+
+  remove(id: string): TimerStorageResult {
+    const current = this.read()
+    if (current.kind === 'error') return current
+
+    const timers = current.timers.filter((timer) => timer.id !== id)
+
+    try {
+      this.write(timers)
+      return { kind: 'timers', timers }
+    } catch {
+      return { kind: 'error', message: 'The timer could not be deleted.' }
+    }
+  }
+
+  private write(timers: Timer[]) {
+    this.storage.setItem(TIMER_STORAGE_KEY, JSON.stringify(timers))
+    window.dispatchEvent(new Event('until-timers-changed'))
   }
 }
 
