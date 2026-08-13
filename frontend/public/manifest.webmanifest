@@ -2,7 +2,7 @@
   "name": "until",
   "short_name": "until",
   "description": "A clearer way to move forward.",
-  "start_url": "/app",
+  "start_url": "/app?source=pwa",
   "scope": "/",
   "display": "standalone",
   "background_color": "#f6f4f0",

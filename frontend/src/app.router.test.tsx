@@ -28,7 +28,10 @@ function renderAt(path: string) {
 }
 
 describe('application routes', () => {
-  beforeEach(() => localStorage.clear())
+  beforeEach(() => {
+    localStorage.clear()
+    window.history.replaceState({}, '', '/')
+  })
 
   it('renders the landing page at the root path', () => {
     renderAt('/')
@@ -184,7 +187,7 @@ describe('application routes', () => {
     expect(screen.queryByRole('button', { name: 'Install until' })).not.toBeInTheDocument()
   })
 
-  it('hides banner and toolbar install actions when an installed PWA opens in a browser tab', () => {
+  it('does not treat the legacy installed flag as an installed PWA in a browser tab', async () => {
     localStorage.setItem('until-pwa-installed', 'true')
 
     render(
@@ -197,6 +200,6 @@ describe('application routes', () => {
     )
 
     expect(getInstallElement().showDialog).not.toHaveBeenCalled()
-    expect(screen.queryByRole('button', { name: 'Install until' })).not.toBeInTheDocument()
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Install until' })).toBeInTheDocument())
   })
 })

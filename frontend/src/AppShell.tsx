@@ -11,7 +11,7 @@ import { Link, Outlet } from 'react-router-dom'
 import { usePwaInstall } from '@/components/pwa-install-context'
 
 export default function AppShell() {
-  const { showInstallPrompt, isPwaInstalled } = usePwaInstall()
+  const { showInstallPrompt, isPwaInstalled, isInstallAvailable } = usePwaInstall()
 
   return (
     <SidebarProvider className="app-shell bg-muted/30">
@@ -25,7 +25,7 @@ export default function AppShell() {
             <p className="truncate text-sm font-medium">Until</p>
             <p className="truncate text-xs text-muted-foreground">Timers</p>
           </div>
-          {!isPwaInstalled ? (
+          {!isPwaInstalled && isInstallAvailable ? (
             <Button
               type="button"
               size="icon-sm"
