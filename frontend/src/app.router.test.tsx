@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { AppRoutes } from './app.router'
@@ -6,12 +6,16 @@ import InstallPrompt from './components/InstallPrompt'
 import { PwaInstallProvider } from './components/pwa-install-provider'
 
 const originalMatchMedia = window.matchMedia
-const originalUserAgent = navigator.userAgent
 
 afterEach(() => {
   window.matchMedia = originalMatchMedia
-  Object.defineProperty(navigator, 'userAgent', { configurable: true, value: originalUserAgent })
 })
+
+function getInstallElement() {
+  return document.querySelector('pwa-install') as HTMLElement & {
+    showDialog: ReturnType<typeof vi.fn>
+  }
+}
 
 function renderAt(path: string) {
   return render(
@@ -103,12 +107,7 @@ describe('application routes', () => {
     expect(Date.parse(storedTimers[0].endDate)).toBeGreaterThan(Date.parse(storedTimers[0].startDate))
   })
 
-  it('preserves the install state from the landing page and shows the banner after navigating to /app', async () => {
-    Object.defineProperty(navigator, 'userAgent', {
-      configurable: true,
-      value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15',
-    })
-
+  it('keeps the installer mounted on the landing page and opens it after navigating to /app', async () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <PwaInstallProvider>
@@ -118,18 +117,13 @@ describe('application routes', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+    expect(getInstallElement().showDialog).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole('link', { name: /open app/i }))
 
-    expect(await screen.findByRole('complementary', { name: 'Install until' })).toBeInTheDocument()
+    await waitFor(() => expect(getInstallElement().showDialog).toHaveBeenCalledWith())
   })
 
-  it('shows the installation banner when the app is opened directly at /app', async () => {
-    Object.defineProperty(navigator, 'userAgent', {
-      configurable: true,
-      value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15',
-    })
-
+  it('opens the installation dialog when the app is opened directly at /app', async () => {
     render(
       <MemoryRouter initialEntries={['/app']}>
         <PwaInstallProvider>
@@ -139,7 +133,7 @@ describe('application routes', () => {
       </MemoryRouter>,
     )
 
-    expect(await screen.findByRole('complementary', { name: 'Install until' })).toBeInTheDocument()
+    await waitFor(() => expect(getInstallElement().showDialog).toHaveBeenCalledWith())
   })
 
   it('uses the landing page as the unknown-path fallback', () => {
@@ -148,12 +142,7 @@ describe('application routes', () => {
     expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
   })
 
-  it('keeps the toolbar install action visible after the banner is dismissed', async () => {
-    Object.defineProperty(navigator, 'userAgent', {
-      configurable: true,
-      value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/605.1.15 Version/18.0 Safari/605.1.15',
-    })
-
+  it('keeps the toolbar install action available after the library dialog is dismissed', async () => {
     render(
       <MemoryRouter initialEntries={['/app']}>
         <PwaInstallProvider>
@@ -163,14 +152,16 @@ describe('application routes', () => {
       </MemoryRouter>,
     )
 
-    fireEvent.click(await screen.findByRole('button', { name: 'Dismiss install prompt' }))
-
-    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+    await waitFor(() => expect(getInstallElement().showDialog).toHaveBeenCalledWith())
+    getInstallElement().dispatchEvent(new CustomEvent('pwa-user-choice-result-event', {
+      detail: { message: 'dismissed' },
+    }))
     const toolbarInstall = screen.getByRole('button', { name: 'Install until' })
     expect(toolbarInstall).toBeInTheDocument()
 
+    getInstallElement().showDialog.mockClear()
     fireEvent.click(toolbarInstall)
-    expect(await screen.findByRole('region', { name: 'Install until instructions' })).toBeInTheDocument()
+    expect(getInstallElement().showDialog).toHaveBeenCalledWith(true)
   })
 
   it('hides banner and toolbar install actions in standalone mode', () => {
@@ -189,7 +180,7 @@ describe('application routes', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+    expect(getInstallElement().showDialog).not.toHaveBeenCalled()
     expect(screen.queryByRole('button', { name: 'Install until' })).not.toBeInTheDocument()
   })
 
@@ -205,7 +196,7 @@ describe('application routes', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
+    expect(getInstallElement().showDialog).not.toHaveBeenCalled()
     expect(screen.queryByRole('button', { name: 'Install until' })).not.toBeInTheDocument()
   })
 })

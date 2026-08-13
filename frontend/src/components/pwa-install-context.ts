@@ -1,10 +1,9 @@
 import { createContext, useContext } from 'react'
 
 export type PwaInstallContextValue = {
-  canPromptInstall: boolean
   isPwaInstalled: boolean
   isStandalone: boolean
-  install: () => Promise<'prompted' | 'manual'>
+  showInstallPrompt: (mode?: 'automatic' | 'manual') => void
 }
 
 export const PwaInstallContext = createContext<PwaInstallContextValue | null>(null)
