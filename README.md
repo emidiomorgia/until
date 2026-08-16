@@ -34,6 +34,10 @@ The project is currently in pre-release development. The first public version wi
 
 ## About
 
+### Product Overview
+
+![Until hero banner showing the app purpose: Keep track of deadlines and time-bound events](docs/img/hero.png "Until - Deadline and event management")
+
 Until is a React and TypeScript single-page application built with [shadcn/ui](https://ui.shadcn.com/). Its interface is designed around clarity and quick scanning rather than complex project-management workflows.
 
 The initial product direction is:
@@ -43,6 +47,32 @@ The initial product direction is:
 - distinguish upcoming, due, and overdue events;
 - provide a responsive experience for desktop and mobile screens; and
 - keep the foundation modular so persistence, notifications, and integrations can be added later.
+
+### Visual Walkthrough
+
+#### Home Screen
+
+**Desktop View**
+![Home screen on desktop showing the welcome message and call-to-action buttons](docs/img/home-desktop.png "Desktop home screen")
+
+**Mobile View**
+![Home screen on mobile (375px width) showing responsive layout and touch-friendly interface](docs/img/home-mobile.png "Mobile home screen")
+
+#### Events List
+
+**Desktop View**
+![Events list on desktop displaying multiple events with remaining time indicators](docs/img/timers-list-desktop.png "Desktop events list")
+
+**Mobile View**
+![Events list on mobile showing compact layout optimized for small screens](docs/img/timers-list-mobile.png "Mobile events list")
+
+#### Event Details
+
+**Desktop View**
+![Event detail view on desktop showing event information, date/time picker, and action buttons](docs/img/timer-detail-desktop.png "Desktop event details")
+
+**Mobile View**
+![Event detail view on mobile showing full-screen layout with optimized input handling](docs/img/timer-detail-mobile.png "Mobile event details")
 
 ## Technical overview
 
