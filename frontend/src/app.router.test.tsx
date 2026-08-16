@@ -159,7 +159,7 @@ describe('application routes', () => {
     expect(localStorage.getItem('until-timers')).toBe('[]')
   })
 
-  it('keeps the installer mounted on the landing page and opens it after navigating to /app', async () => {
+  it('links to /app with a browser navigation so an installed PWA can capture it', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <PwaInstallProvider>
@@ -170,9 +170,7 @@ describe('application routes', () => {
     )
 
     expect(getInstallElement().showDialog).not.toHaveBeenCalled()
-    fireEvent.click(screen.getByRole('link', { name: /open app/i }))
-
-    await waitFor(() => expect(getInstallElement().showDialog).toHaveBeenCalledWith())
+    expect(screen.getByRole('link', { name: /open app/i })).toHaveAttribute('href', '/app')
   })
 
   it('opens the installation dialog when the app is opened directly at /app', async () => {

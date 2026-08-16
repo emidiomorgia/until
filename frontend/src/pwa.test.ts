@@ -5,7 +5,10 @@ describe('PWA metadata', () => {
   it('declares branded manifest and standalone launch metadata', () => {
     expect(pwaManifest.name).toBe('until')
     expect(pwaManifest.id).toBe('/app')
-    expect(pwaManifest.start_url).toBe('/app?source=pwa')
+    expect(pwaManifest.start_url).toBe('/app')
+    expect(pwaManifest.scope).toBe('/app')
+    expect(pwaManifest.launch_handler).toEqual({ client_mode: 'navigate-existing' })
+    expect(pwaManifest.handle_links).toBe('preferred')
     expect(pwaManifest.display).toBe('standalone')
     expect(pwaManifest.related_applications).toEqual([{
       platform: 'webapp',
