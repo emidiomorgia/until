@@ -208,12 +208,20 @@ describe('application routes', () => {
     getInstallElement().dispatchEvent(new CustomEvent('pwa-user-choice-result-event', {
       detail: { message: 'dismissed' },
     }))
-    const toolbarInstall = screen.getByRole('button', { name: 'Install until' })
+    const toolbarInstall = await screen.findByRole('button', { name: 'Install until' })
     expect(toolbarInstall).toBeInTheDocument()
 
     getInstallElement().showDialog.mockClear()
     fireEvent.click(toolbarInstall)
     expect(getInstallElement().showDialog).toHaveBeenCalledWith(true)
+  })
+
+  it('shows a prominent toolbar install action before the browser prompt is available', async () => {
+    renderAt('/app')
+
+    const toolbarInstall = await screen.findByRole('button', { name: 'Install until' })
+    expect(toolbarInstall).toHaveTextContent('Install app')
+    expect(toolbarInstall.querySelector('svg')).toBeInTheDocument()
   })
 
   it('hides banner and toolbar install actions in standalone mode', () => {

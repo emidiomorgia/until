@@ -76,16 +76,16 @@ describe('PwaInstallProvider', () => {
     expect(result.current.isPwaInstalled).toBe(false)
   })
 
-  it('clears the library prompt state left by older versions', () => {
+  it('preserves the library prompt state across provider mounts', () => {
     localStorage.setItem('pwa-hide-install', 'true')
 
     renderHook(() => usePwaInstall(), { wrapper })
 
-    expect(localStorage.getItem('pwa-hide-install')).toBeNull()
+    expect(localStorage.getItem('pwa-hide-install')).toBe('true')
   })
 
   it('does not reopen the automatic dialog after a dismissal', async () => {
-    sessionStorage.setItem('until-pwa-install-banner-dismissed', 'true')
+    localStorage.setItem('pwa-hide-install', 'true')
     const { result } = renderHook(() => usePwaInstall(), { wrapper })
 
     act(() => result.current.showInstallPrompt('automatic'))
@@ -95,12 +95,12 @@ describe('PwaInstallProvider', () => {
   })
 
   it('records dismissals reported by the library', () => {
-    renderHook(() => usePwaInstall(), { wrapper })
+    const { result } = renderHook(() => usePwaInstall(), { wrapper })
 
     act(() => getInstallElement().dispatchEvent(new CustomEvent('pwa-user-choice-result-event', {
       detail: { message: 'dismissed' },
     })))
 
-    expect(sessionStorage.getItem('until-pwa-install-banner-dismissed')).toBe('true')
+    expect(result.current.isDialogHidden).toBe(true)
   })
 })
