@@ -85,7 +85,7 @@ describe('PwaInstallProvider', () => {
   })
 
   it('does not reopen the automatic dialog after a dismissal', async () => {
-    localStorage.setItem('pwa-hide-install', 'true')
+    localStorage.setItem('until-pwa-install-banner-seen', 'true')
     const { result } = renderHook(() => usePwaInstall(), { wrapper })
 
     act(() => result.current.showInstallPrompt('automatic'))
@@ -102,5 +102,31 @@ describe('PwaInstallProvider', () => {
     })))
 
     expect(result.current.isDialogHidden).toBe(true)
+  })
+
+  it('does not treat a cancelled native prompt as an installation', () => {
+    const { result } = renderHook(() => usePwaInstall(), { wrapper })
+
+    act(() => getInstallElement().dispatchEvent(new CustomEvent('pwa-user-choice-result-event', {
+      detail: { message: 'dismissed' },
+    })))
+
+    expect(result.current.isPwaInstalled).toBe(false)
+  })
+
+  it('does not trust the library success event without a native installation event', () => {
+    const { result } = renderHook(() => usePwaInstall(), { wrapper })
+
+    act(() => getInstallElement().dispatchEvent(new CustomEvent('pwa-install-success-event')))
+
+    expect(result.current.isPwaInstalled).toBe(false)
+  })
+
+  it('marks the app as installed only after the native appinstalled event', async () => {
+    const { result } = renderHook(() => usePwaInstall(), { wrapper })
+
+    act(() => window.dispatchEvent(new Event('appinstalled')))
+
+    await waitFor(() => expect(result.current.isPwaInstalled).toBe(true))
   })
 })
