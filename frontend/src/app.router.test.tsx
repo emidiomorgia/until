@@ -36,7 +36,7 @@ describe('application routes', () => {
   it('renders the landing page at the root path', () => {
     renderAt('/')
     expect(screen.getByRole('heading', { name: /make time/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /open app/i })).toHaveAttribute('href', '/app')
+    expect(screen.getByRole('link', { name: /open app/i })).toHaveAttribute('href', '/app/')
     expect(screen.getByRole('link', { name: /explore until/i })).toBeInTheDocument()
     expect(screen.queryByRole('complementary', { name: 'Install until' })).not.toBeInTheDocument()
   })
@@ -170,7 +170,7 @@ describe('application routes', () => {
     )
 
     expect(getInstallElement().showDialog).not.toHaveBeenCalled()
-    expect(screen.getByRole('link', { name: /open app/i })).toHaveAttribute('href', '/app')
+    expect(screen.getByRole('link', { name: /open app/i })).toHaveAttribute('href', '/app/')
   })
 
   it('opens the installation dialog when the app is opened directly at /app', async () => {

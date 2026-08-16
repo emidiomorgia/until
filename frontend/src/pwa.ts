@@ -1,8 +1,8 @@
 export const pwaManifest = {
   name: 'until',
-  id: '/app',
-  start_url: '/app',
-  scope: '/app',
+  id: '/app/',
+  start_url: '/app/',
+  scope: '/app/',
   display: 'standalone',
   launch_handler: {
     client_mode: 'navigate-existing',
@@ -12,7 +12,7 @@ export const pwaManifest = {
     {
       platform: 'webapp',
       url: '/manifest.webmanifest',
-      id: '/app',
+      id: '/app/',
     },
   ],
   icons: [
@@ -27,6 +27,6 @@ export function isPwaLaunch(search: string) {
 
 export function registerServiceWorker() {
   if ('serviceWorker' in navigator && import.meta.env.PROD) {
-    void navigator.serviceWorker.register('/sw.js', { scope: '/app' })
+    void navigator.serviceWorker.register('/sw.js', { scope: '/app/' })
   }
 }

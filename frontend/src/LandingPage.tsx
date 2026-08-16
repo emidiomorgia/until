@@ -31,7 +31,7 @@ function LandingPage() {
           <p className="abstract">until turns the space between now and a deadline into something you can see, understand, and make progress through.</p>
           <div className="hero-actions">
             <a className="primary-button" href="#preview">Explore until <span aria-hidden="true">↗</span></a>
-            <a className="secondary-button" href="/app">Open app <span aria-hidden="true">↗</span></a>
+            <a className="secondary-button" href="/app/">Open app <span aria-hidden="true">↗</span></a>
           </div>
         </div>
         <div className="hero-orbit" aria-hidden="true">

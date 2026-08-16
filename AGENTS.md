@@ -11,6 +11,23 @@ This project uses Backlog.md for task and project management.
 
 Use the overview to decide whether to search, read, create, or update Backlog tasks.
 
+### Workflow authority and execution gate
+
+The default workflow is the Backlog.md workflow described in
+[backlog/docs/operating-model.md](backlog/docs/operating-model.md): implementation may
+start only from a prepared task in `Ready` after the Human explicitly invites the Coder.
+Do not create a task directly in `In Progress`, do not infer an implementation invitation
+from a feature request or from the agent's own commentary, and do not modify code before
+that gate has been satisfied.
+
+`PROMPT-EXECUTION-HUMAN.md` is an explicit exception. When the Human provides execution
+instructions through that prompt, its Interactive workflow takes precedence over the
+Backlog task lifecycle while the work is in progress. The exception does not remove its
+confirmation gates: obtain explicit Human confirmation of the shared understanding, the
+complete plan, and each implementation step before acting. An ordinary chat request is
+not confirmation for the Interactive workflow. After the Human confirms closure, create
+only the required terminal Backlog archival record described by that prompt.
+
 Apply the common Definition of Done in [backlog/docs/operating-model.md](backlog/docs/operating-model.md#common-definition-of-done) to every task. Individual task `Definition of Done` fields must contain only task-specific additions and must not repeat the common checks.
 
 Before task lifecycle actions, read the matching detailed guide:

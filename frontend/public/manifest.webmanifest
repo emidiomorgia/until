@@ -1,10 +1,10 @@
 {
   "name": "until",
   "short_name": "until",
-  "id": "/app",
+  "id": "/app/",
   "description": "A clearer way to move forward.",
-  "start_url": "/app",
-  "scope": "/app",
+  "start_url": "/app/",
+  "scope": "/app/",
   "display": "standalone",
   "launch_handler": {
     "client_mode": "navigate-existing"
@@ -14,7 +14,7 @@
     {
       "platform": "webapp",
       "url": "/manifest.webmanifest",
-      "id": "/app"
+      "id": "/app/"
     }
   ],
   "background_color": "#f6f4f0",

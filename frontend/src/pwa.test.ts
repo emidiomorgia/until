@@ -4,16 +4,16 @@ import { isPwaLaunch, pwaManifest } from './pwa'
 describe('PWA metadata', () => {
   it('declares branded manifest and standalone launch metadata', () => {
     expect(pwaManifest.name).toBe('until')
-    expect(pwaManifest.id).toBe('/app')
-    expect(pwaManifest.start_url).toBe('/app')
-    expect(pwaManifest.scope).toBe('/app')
+    expect(pwaManifest.id).toBe('/app/')
+    expect(pwaManifest.start_url).toBe('/app/')
+    expect(pwaManifest.scope).toBe('/app/')
     expect(pwaManifest.launch_handler).toEqual({ client_mode: 'navigate-existing' })
     expect(pwaManifest.handle_links).toBe('preferred')
     expect(pwaManifest.display).toBe('standalone')
     expect(pwaManifest.related_applications).toEqual([{
       platform: 'webapp',
       url: '/manifest.webmanifest',
-      id: '/app',
+      id: '/app/',
     }])
     expect(pwaManifest.icons).toEqual(expect.arrayContaining([
       expect.objectContaining({ src: '/assets/icon-192.png', sizes: '192x192' }),

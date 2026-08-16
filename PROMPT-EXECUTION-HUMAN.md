@@ -1,5 +1,11 @@
 # Interactive execution mode
 
+This prompt is an explicit Human-selected exception to the default Backlog.md task
+lifecycle. It may be used instead of the Analyst/Coder/Reviewer workflow only when the
+Human supplies these execution instructions. The agent must not infer that this mode is
+active from an ordinary request or from its own commentary; the confirmations below are
+mandatory before any implementation action.
+
 Use this prompt to execute a request in `Interactive` mode. This mode is a simpler, Human-led workflow and does not use Backlog.md to plan or manage the work while it is in progress. Do not exchange the roles of Analyst, Coder, or Reviewer: one agent collaborates directly with the Human from clarification through implementation and handoff.
 
 ## Operating rules
