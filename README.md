@@ -34,10 +34,6 @@ The project is currently in pre-release development. The first public version wi
 
 ## About
 
-### Product Overview
-
-![Until hero banner showing the app purpose: Keep track of deadlines and time-bound events](docs/img/hero.png "Until - Deadline and event management")
-
 Until is a React and TypeScript single-page application built with [shadcn/ui](https://ui.shadcn.com/). Its interface is designed around clarity and quick scanning rather than complex project-management workflows.
 
 The initial product direction is:
@@ -50,29 +46,29 @@ The initial product direction is:
 
 ### Visual Walkthrough
 
-#### Home Screen
+#### App Just Opened
 
 **Desktop View**
-![Home screen on desktop showing the welcome message and call-to-action buttons](docs/img/home-desktop.png "Desktop home screen")
+![App initial view on desktop showing the main application interface](docs/img/app-opened-desktop.png "Desktop app opened")
 
 **Mobile View**
-![Home screen on mobile (375px width) showing responsive layout and touch-friendly interface](docs/img/home-mobile.png "Mobile home screen")
+![App initial view on mobile (375px width) showing responsive layout](docs/img/app-opened-mobile.png "Mobile app opened")
 
-#### Events List
+#### Timers List
 
 **Desktop View**
-![Events list on desktop displaying multiple events with remaining time indicators](docs/img/timers-list-desktop.png "Desktop events list")
+![Timers list view on desktop displaying events with remaining time](docs/img/timers-list-desktop.png "Desktop timers list")
 
 **Mobile View**
-![Events list on mobile showing compact layout optimized for small screens](docs/img/timers-list-mobile.png "Mobile events list")
+![Timers list view on mobile showing compact layout for small screens](docs/img/timers-list-mobile.png "Mobile timers list")
 
-#### Event Details
+#### Timer Detail
 
 **Desktop View**
-![Event detail view on desktop showing event information, date/time picker, and action buttons](docs/img/timer-detail-desktop.png "Desktop event details")
+![Timer detail view on desktop showing event information and controls](docs/img/timer-detail-desktop.png "Desktop timer detail")
 
 **Mobile View**
-![Event detail view on mobile showing full-screen layout with optimized input handling](docs/img/timer-detail-mobile.png "Mobile event details")
+![Timer detail view on mobile with optimized layout for smaller screens](docs/img/timer-detail-mobile.png "Mobile timer detail")
 
 ## Technical overview
 
