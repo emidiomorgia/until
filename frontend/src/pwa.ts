@@ -1,7 +1,15 @@
 export const pwaManifest = {
   name: 'until',
+  id: '/app',
   start_url: '/app?source=pwa',
   display: 'standalone',
+  related_applications: [
+    {
+      platform: 'webapp',
+      url: '/manifest.webmanifest',
+      id: '/app',
+    },
+  ],
   icons: [
     { src: '/assets/icon-192.png', sizes: '192x192' },
     { src: '/assets/icon-512.png', sizes: '512x512' },

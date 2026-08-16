@@ -4,7 +4,7 @@ import { afterEach, vi } from 'vitest'
 
 vi.mock('@khmyznikov/pwa-install', () => {
   class MockPwaInstallElement extends HTMLElement {
-    isDialogHidden = true
+    isDialogHidden = localStorage.getItem('pwa-hide-install') === 'true'
     isInstallAvailable = false
     isUnderStandaloneMode = false
     isRelatedAppsInstalled = false
@@ -14,6 +14,7 @@ vi.mock('@khmyznikov/pwa-install', () => {
     })
     hideDialog = vi.fn(() => {
       this.isDialogHidden = true
+      localStorage.setItem('pwa-hide-install', 'true')
     })
     install = vi.fn()
     getInstalledRelatedApps = vi.fn(async () => [])

@@ -11,7 +11,7 @@ import { Outlet } from 'react-router-dom'
 import { usePwaInstall } from '@/components/pwa-install-context'
 
 export default function AppShell() {
-  const { showInstallPrompt, isPwaInstalled, isInstallAvailable } = usePwaInstall()
+  const { isInstallAvailable, showInstallPrompt, isInstallationStateReady, isPwaInstalled } = usePwaInstall()
 
   return (
     <SidebarProvider className="app-shell bg-muted/30">
@@ -25,16 +25,17 @@ export default function AppShell() {
             <p className="truncate text-sm font-medium">Until</p>
             <p className="truncate text-xs text-muted-foreground">Timer list</p>
           </div>
-          {!isPwaInstalled && isInstallAvailable ? (
+          {isInstallationStateReady && !isPwaInstalled && isInstallAvailable ? (
             <Button
               type="button"
-              size="icon-sm"
-              variant="ghost"
-              className="ml-auto"
+              size="sm"
+              variant="default"
+              className="ml-auto gap-2 shadow-sm"
               aria-label="Install until"
               onClick={() => showInstallPrompt('manual')}
             >
               <DownloadIcon aria-hidden="true" />
+              <span>Install app</span>
             </Button>
           ) : <div className="ml-auto" />}
         </header>

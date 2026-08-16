@@ -58,7 +58,7 @@ describe('PWA install prompt', () => {
   })
 
   it('respects a persisted dismissal when the app route opens', async () => {
-    sessionStorage.setItem('until-pwa-install-banner-dismissed', 'true')
+    localStorage.setItem('pwa-hide-install', 'true')
     renderPrompt()
     await act(async () => Promise.resolve())
 

@@ -4,37 +4,9 @@ import type { PWAInstallElement } from '@khmyznikov/pwa-install'
 import { isPwaLaunch, registerServiceWorker } from '@/pwa'
 import { PwaInstallContext, type PwaInstallContextValue } from '@/components/pwa-install-context'
 
-const DISMISSED_STORAGE_KEY = 'until-pwa-install-banner-dismissed'
-const LEGACY_INSTALL_PROMPT_STORAGE_KEY = 'pwa-hide-install'
-
 function detectStandalone() {
   return window.matchMedia('(display-mode: standalone)').matches ||
     (window.navigator as Navigator & { standalone?: boolean }).standalone === true
-}
-
-function readDismissedState() {
-  try {
-    return sessionStorage.getItem(DISMISSED_STORAGE_KEY) === 'true'
-  } catch {
-    return false
-  }
-}
-
-function saveDismissedState() {
-  try {
-    sessionStorage.setItem(DISMISSED_STORAGE_KEY, 'true')
-  } catch {
-    // The library still keeps the dismissal in memory when storage is unavailable.
-  }
-}
-
-function clearLegacyInstallPromptState() {
-  try {
-    localStorage.removeItem(LEGACY_INSTALL_PROMPT_STORAGE_KEY)
-    localStorage.removeItem(DISMISSED_STORAGE_KEY)
-  } catch {
-    // The prompt remains usable when storage is unavailable.
-  }
 }
 
 export function PwaInstallProvider({ children }: { children: ReactNode }) {
@@ -44,31 +16,40 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
   const [isPwaInstalled, setIsPwaInstalled] = useState(() => isPwaLaunch(window.location.search))
   const [isRelatedAppsInstalled, setIsRelatedAppsInstalled] = useState(false)
   const [isInstallAvailable, setIsInstallAvailable] = useState(false)
+  const [isDialogHidden, setIsDialogHidden] = useState(false)
+  const [isInstallationStateReady, setIsInstallationStateReady] = useState(() =>
+    detectStandalone() || isPwaLaunch(window.location.search),
+  )
 
   useEffect(() => {
     registerServiceWorker()
-    clearLegacyInstallPromptState()
-
     const installElement = installElementRef.current
     if (!installElement) return
 
-    void installElement.getInstalledRelatedApps().then((relatedApps) => {
-      setIsRelatedAppsInstalled(relatedApps.length > 0)
-    })
+    const syncLibraryState = () => {
+      setIsInstallAvailable(installElement.isInstallAvailable)
+      setIsDialogHidden(installElement.isDialogHidden)
+    }
+
+    void installElement.getInstalledRelatedApps()
+      .then((relatedApps) => {
+        setIsRelatedAppsInstalled(relatedApps.length > 0)
+      })
+      .finally(() => setIsInstallationStateReady(true))
 
     const handleInstallAvailable = () => {
-      setIsInstallAvailable(true)
-      if (!automaticPromptPendingRef.current || readDismissedState()) return
+      syncLibraryState()
+      if (!automaticPromptPendingRef.current || installElement.isDialogHidden) return
       automaticPromptPendingRef.current = false
       installElement.showDialog()
     }
     const handleInstallSuccess = () => {
-      setIsInstallAvailable(false)
       setIsPwaInstalled(true)
+      setIsInstallAvailable(false)
     }
     const handleUserChoice = (event: Event) => {
       const message = (event as CustomEvent<{ message?: string }>).detail?.message
-      if (message === 'dismissed') saveDismissedState()
+      if (message === 'dismissed') setIsDialogHidden(true)
     }
     const mediaQuery = window.matchMedia('(display-mode: standalone)')
     const handleDisplayModeChange = () => {
@@ -80,6 +61,7 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
     installElement.addEventListener('pwa-install-available-event', handleInstallAvailable)
     installElement.addEventListener('pwa-install-success-event', handleInstallSuccess)
     installElement.addEventListener('pwa-user-choice-result-event', handleUserChoice)
+    syncLibraryState()
     mediaQuery.addEventListener?.('change', handleDisplayModeChange)
 
     return () => {
@@ -95,7 +77,7 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
     if (!installElement || isStandalone || isPwaInstalled || isRelatedAppsInstalled) return
 
     if (mode === 'automatic') {
-      if (readDismissedState()) return
+      if (installElement.isDialogHidden) return
       automaticPromptPendingRef.current = true
       if (!installElement.isInstallAvailable) return
       automaticPromptPendingRef.current = false
@@ -108,18 +90,19 @@ export function PwaInstallProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<PwaInstallContextValue>(() => ({
     isPwaInstalled: isStandalone || isPwaInstalled || isRelatedAppsInstalled,
+    isInstallationStateReady,
     isInstallAvailable,
+    isDialogHidden,
     isStandalone,
     showInstallPrompt,
-  }), [isInstallAvailable, isPwaInstalled, isRelatedAppsInstalled, isStandalone, showInstallPrompt])
+  }), [isDialogHidden, isInstallAvailable, isInstallationStateReady, isPwaInstalled, isRelatedAppsInstalled, isStandalone, showInstallPrompt])
 
   return (
     <PwaInstallContext.Provider value={value}>
       {children}
       <pwa-install
         ref={installElementRef}
-        manual-apple="true"
-        manual-chrome="true"
+        use-local-storage="true"
         manifest-url="/manifest.webmanifest"
         styles={{ '--tint-color': '#5e4ed5' }}
       />
