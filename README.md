@@ -44,31 +44,30 @@ The initial product direction is:
 - provide a responsive experience for desktop and mobile screens; and
 - keep the foundation modular so persistence, notifications, and integrations can be added later.
 
+### Product Overview
+
+![Until landing page hero section, showing the "Make time count." headline and value proposition for tracking deadlines](docs/img/hero.png "Until landing page hero")
+
 ### Visual Walkthrough
 
-#### App Just Opened
-
-**Desktop View**
-![App initial view on desktop showing the main application interface](docs/img/app-opened-desktop.png "Desktop app opened")
-
-**Mobile View**
-![App initial view on mobile (375px width) showing responsive layout](docs/img/app-opened-mobile.png "Mobile app opened")
-
-#### Timers List
-
-**Desktop View**
-![Timers list view on desktop displaying events with remaining time](docs/img/timers-list-desktop.png "Desktop timers list")
-
-**Mobile View**
-![Timers list view on mobile showing compact layout for small screens](docs/img/timers-list-mobile.png "Mobile timers list")
-
-#### Timer Detail
-
-**Desktop View**
-![Timer detail view on desktop showing event information and controls](docs/img/timer-detail-desktop.png "Desktop timer detail")
-
-**Mobile View**
-![Timer detail view on mobile with optimized layout for smaller screens](docs/img/timer-detail-mobile.png "Mobile timer detail")
+<table>
+<tr><th>Desktop</th><th>Mobile</th></tr>
+<tr>
+<td><img src="docs/img/app-opened-desktop.png" alt="App initial view on desktop showing the main application interface" width="420"></td>
+<td><img src="docs/img/app-opened-mobile.png" alt="App initial view on mobile (375px width) showing responsive layout" width="200"></td>
+</tr>
+<tr><td colspan="2" align="center"><em>App Just Opened</em></td></tr>
+<tr>
+<td><img src="docs/img/timers-list-desktop.png" alt="Timers list view on desktop displaying events with remaining time" width="420"></td>
+<td><img src="docs/img/timers-list-mobile.png" alt="Timers list view on mobile showing compact layout for small screens" width="200"></td>
+</tr>
+<tr><td colspan="2" align="center"><em>Timers List</em></td></tr>
+<tr>
+<td><img src="docs/img/timer-detail-desktop.png" alt="Timer detail view on desktop showing event information and controls" width="420"></td>
+<td><img src="docs/img/timer-detail-mobile.png" alt="Timer detail view on mobile with optimized layout for smaller screens" width="200"></td>
+</tr>
+<tr><td colspan="2" align="center"><em>Timer Detail</em></td></tr>
+</table>
 
 ## Technical overview
 
