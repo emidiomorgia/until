@@ -1,16 +1,16 @@
 ---
 id: TASK-20
 title: Modify Readme with screenshot
-status: In Review
+status: Done
 assignee: []
 created_date: '2026-08-16 20:56'
-updated_date: '2026-08-16 22:08'
+updated_date: '2026-08-16 22:10'
 labels: []
 milestone: m-0
 dependencies: []
 priority: high
 type: enhancement
-ordinal: 1000
+ordinal: 19000
 ---
 
 ## Description
