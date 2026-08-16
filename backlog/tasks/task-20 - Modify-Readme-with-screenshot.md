@@ -1,7 +1,7 @@
 ---
 id: TASK-20
 title: Modify Readme with screenshot
-status: In Progress
+status: In Review
 assignee: []
 created_date: '2026-08-16 20:56'
 updated_date: '2026-08-16 22:08'
