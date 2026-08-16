@@ -4,9 +4,10 @@ title: 'Interactive execution: timer date-time and responsive list UI'
 status: Done
 assignee: []
 created_date: '2026-08-13 21:49'
-updated_date: '2026-08-13 21:49'
+updated_date: '2026-08-16 20:59'
 labels:
-  - interactive frontend
+  - Sprint1
+milestone: m-0
 dependencies: []
 modified_files:
   - frontend/src/components/date-time-picker.tsx

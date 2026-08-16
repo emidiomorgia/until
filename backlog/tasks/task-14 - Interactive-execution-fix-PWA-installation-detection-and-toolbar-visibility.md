@@ -4,9 +4,10 @@ title: 'Interactive execution: fix PWA installation detection and toolbar visibi
 status: Done
 assignee: []
 created_date: '2026-08-13 20:48'
-updated_date: '2026-08-16 10:25'
+updated_date: '2026-08-16 20:59'
 labels:
-  - frontend pwa interactive
+  - Sprint1
+milestone: m-0
 dependencies: []
 modified_files:
   - frontend/public/manifest.webmanifest

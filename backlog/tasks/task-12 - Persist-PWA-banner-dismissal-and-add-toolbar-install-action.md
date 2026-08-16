@@ -4,8 +4,10 @@ title: Persist PWA banner dismissal and add toolbar install action
 status: Done
 assignee: []
 created_date: '2026-08-13 15:09'
-updated_date: '2026-08-13 15:09'
-labels: []
+updated_date: '2026-08-16 20:58'
+labels:
+  - Sprint1
+milestone: m-0
 dependencies: []
 references:
   - backlog/docs/operating-model.md

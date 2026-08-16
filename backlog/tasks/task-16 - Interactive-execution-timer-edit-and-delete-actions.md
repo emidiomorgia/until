@@ -4,10 +4,10 @@ title: 'Interactive execution: timer edit and delete actions'
 status: Done
 assignee: []
 created_date: '2026-08-13 22:07'
-updated_date: '2026-08-13 22:08'
+updated_date: '2026-08-16 20:59'
 labels:
-  - interactive
-  - frontend
+  - Sprint1
+milestone: m-0
 dependencies: []
 modified_files:
   - frontend/src/services/timer-storage.service.ts

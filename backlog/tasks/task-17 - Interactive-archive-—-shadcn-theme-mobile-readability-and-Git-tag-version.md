@@ -4,9 +4,10 @@ title: 'Interactive archive — shadcn theme, mobile readability, and Git-tag ve
 status: Done
 assignee: []
 created_date: '2026-08-13 22:27'
-updated_date: '2026-08-13 22:27'
+updated_date: '2026-08-16 20:59'
 labels:
-  - frontend interactive release
+  - Sprint1
+milestone: m-0
 dependencies: []
 references:
   - 'https://ui.shadcn.com/docs/theming'

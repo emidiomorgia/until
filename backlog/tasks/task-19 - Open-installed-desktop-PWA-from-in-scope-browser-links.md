@@ -1,14 +1,14 @@
 ---
 id: TASK-19
 title: Open installed desktop PWA from in-scope browser links
-status: In Review
+status: Done
 assignee:
   - '@Emidio'
 created_date: '2026-08-16 14:08'
-updated_date: '2026-08-16 14:11'
+updated_date: '2026-08-16 21:00'
 labels:
-  - frontend
-  - pwa
+  - Sprint1
+milestone: m-0
 dependencies: []
 references:
   - 'https://khmyznikov.com/pwa-install/'

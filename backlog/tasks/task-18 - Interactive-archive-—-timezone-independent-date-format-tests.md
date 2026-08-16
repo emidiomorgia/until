@@ -4,9 +4,10 @@ title: Interactive archive — timezone-independent date format tests
 status: Done
 assignee: []
 created_date: '2026-08-13 22:34'
-updated_date: '2026-08-13 22:34'
+updated_date: '2026-08-16 20:59'
 labels:
-  - frontend ci interactive
+  - Sprint1
+milestone: m-0
 dependencies: []
 modified_files:
   - frontend/src/components/timer-list.tsx

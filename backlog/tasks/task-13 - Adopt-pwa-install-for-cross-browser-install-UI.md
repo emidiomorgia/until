@@ -4,10 +4,10 @@ title: Adopt pwa-install for cross-browser install UI
 status: Done
 assignee: []
 created_date: '2026-08-13 16:07'
-updated_date: '2026-08-13 16:08'
+updated_date: '2026-08-16 20:58'
 labels:
-  - frontend
-  - pwa
+  - Sprint1
+milestone: m-0
 dependencies: []
 references:
   - 'https://github.com/khmyznikov/pwa-install'
