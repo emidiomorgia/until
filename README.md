@@ -146,15 +146,15 @@ npm run build
 npm run preview
 ```
 
-The exact build and preview scripts will be finalized with the first runnable release.
+Verify the production build locally before opening a pull request.
 
 ## Project status and goals
 
-Until is not production-ready yet. The immediate goal is to publish **v0.1.0**, the first version with minimal but complete functionality.
+Until is not production-ready yet. Development proceeds through incremental pre-1.0 releases published automatically by CI/CD — see the badges above for the version currently deployed.
 
 | Goal | Status | Definition of done |
 | --- | --- | --- |
-| Publish v0.1.0 with minimal functionality | In progress | A user can create, view, update, and delete a time-bound event locally. |
+| Ship and iterate on the MVP frontend | In progress | A user can create, view, update, and delete a time-bound event locally. |
 | Countdown and due-state experience | Planned | Events clearly show remaining, due, and overdue states. |
 | Responsive and accessible interface | In progress | Core flows work on mobile and desktop and are keyboard navigable. |
 | Automated quality checks | Planned | Formatting, linting, type checking, and core tests run locally and in CI. |
@@ -163,7 +163,7 @@ Until is not production-ready yet. The immediate goal is to publish **v0.1.0**, 
 
 ## Usage
 
-The first release will document the primary workflow here with screenshots and examples. Until then, the intended flow is:
+The primary workflow is:
 
 1. Add an event with a title and due date/time.
 2. Review the event in the main timeline or list.
@@ -188,12 +188,9 @@ This project follows a lightweight versioning approach inspired by [Keep a Chang
 
 ### [Unreleased]
 
-- Documentation and initial project foundation.
-- Preparation for the v0.1.0 MVP release.
+- Ongoing MVP iteration.
 
-### [0.1.0] - Planned
-
-- First public release with minimal deadline/event management functionality.
+Release history is tracked via [git tags](https://github.com/emidiomorgia/until/tags); each tag publishes a versioned frontend image (see the deployed-version badge above).
 
 ## Support and feedback
 
